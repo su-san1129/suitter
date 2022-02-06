@@ -2,6 +2,7 @@ import { User } from '../types';
 import { getUser } from '../api/getUser';
 import { css } from '@emotion/react';
 import userRegularIcon from 'assets/user-regular.svg';
+import { icon__small } from '../../../styles/styles';
 
 export const UserIcon = () => {
   const user: User = getUser();
@@ -25,12 +26,8 @@ const userIconContainerStyle = css({
   margin: '8px 0',
 });
 
-const userIconStyle = css({
-  width: '25px',
-  height: '25px',
-  borderRadius: '20px',
+const userIconStyle = css(icon__small, {
   marginRight: '16px',
-  objectFit: 'fill',
 });
 
 const userNameWrapperStyle = css({

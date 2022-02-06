@@ -12,7 +12,7 @@ function App() {
 }
 
 const styles = css({
-  margin: '0 64px',
+  margin: '32px 64px',
 });
 
 export default App;

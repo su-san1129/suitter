@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { SideNav } from './SideNav';
+import { Feed } from '../../features/posts/components/PostList';
 
 export const Main = () => {
   return (
@@ -7,11 +8,8 @@ export const Main = () => {
       <div css={containerStyle}>
         <SideNav></SideNav>
         <div css={{ width: '60%' }}>
-          <ul>
-            <li>sample</li>
-            <li>sample</li>
-            <li>sample</li>
-          </ul>
+          ホーム
+          <Feed></Feed>
         </div>
       </div>
     </div>
