@@ -61,5 +61,5 @@ const listStyle = css({
 const navIcon = css({
   width: '25px',
   height: '25px',
-  marginRight: '8px',
+  marginRight: '16px',
 });
