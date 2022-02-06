@@ -1,15 +1,18 @@
-import './App.css';
-import { UserIcon } from './features/users/components/UserIcon';
+import { Main } from './components/Layout/MainLayout';
+import { css } from '@emotion/react';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" css={styles}>
       <header className="App-header">
-        <h1>Suitter</h1>
-        <UserIcon></UserIcon>
+        <Main></Main>
       </header>
     </div>
   );
 }
+
+const styles = css({
+  margin: '0 64px',
+});
 
 export default App;
