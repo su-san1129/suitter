@@ -1,4 +1,4 @@
-import { BaseEntity } from "../../../types";
+import { BaseEntity } from '../../../types';
 
 export interface User extends BaseEntity {
   name: string;
@@ -6,4 +6,5 @@ export interface User extends BaseEntity {
   password: string;
   phoneNumber: number;
   isPrivate: boolean;
+  icon: string;
 }
