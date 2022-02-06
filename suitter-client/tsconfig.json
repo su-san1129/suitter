@@ -9,6 +9,7 @@
     "types": [
       "@emotion/react/types/css-prop"
     ],
+    "baseUrl": "src",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
