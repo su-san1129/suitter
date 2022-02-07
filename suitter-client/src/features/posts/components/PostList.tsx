@@ -12,17 +12,19 @@ export const Feed = () => {
   return (
     <div className="Feed">
       <ul>
-        {posts.map((post) => (
+        {posts.map((post, index) => (
           <li key={post.id}>
-            <div css={containerStyle}>
+            <div css={[containerStyle, posts.length - 1 === index ? listBorder__last : listBorder]}>
               <img src={userIcon} alt="ユーザー画像" css={userIconStyle} />
               <div>
-                <div css={{ width: '464px' }}>
-                  <span css={{ fontWeight: '700' }}>{post.user.name}</span>
+                <div css={{ width: '476px' }}>
+                  <span css={{ fontWeight: '700', marginRight: '4px', fontSize: '16px' }}>
+                    {post.user.name}
+                  </span>
                   <span
                     css={{
                       color: '#6e767d',
-                      fontSize: '16px',
+                      fontSize: '14px',
                     }}
                   >
                     @{post.user.id}
@@ -51,16 +53,23 @@ export const Feed = () => {
 
 const containerStyle = css({
   display: 'flex',
-  alignItems: 'center',
+  alignItems: 'flex-start',
   width: '520px',
-  padding: '8px 16px',
-  borderTop: '1px solid #eff3f4',
-  borderLeft: '1px solid #eff3f4',
-  borderRight: '1px solid #eff3f4',
+  padding: '12px 24px',
   ':hover': {
     backgroundColor: '#f9f9f9',
     cursor: 'pointer',
   },
+});
+
+const listBorder = css({
+  borderTop: '1px solid #eff3f4',
+  borderLeft: '1px solid #eff3f4',
+  borderRight: '1px solid #eff3f4',
+});
+
+const listBorder__last = css(listBorder, {
+  borderBottom: '1px solid #eff3f4',
 });
 
 const operationMenuStyle = css({
