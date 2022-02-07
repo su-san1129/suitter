@@ -1,4 +1,4 @@
-import { Main } from './components/Layout/MainLayout';
+import { Main } from './components/layout/MainLayout';
 import { css } from '@emotion/react';
 
 function App() {

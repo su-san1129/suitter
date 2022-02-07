@@ -4,13 +4,13 @@ import repostIcon from 'assets/repost.svg';
 import replyIcon from 'assets/comment-dots-regular.svg';
 import favoriteIcon from 'assets/heart-regular.svg';
 import { css } from '@emotion/react';
-import { icon__middle, icon__tiny } from '../../../styles/styles';
+import { colorStyles, icon__middle, icon__tiny } from '../../../styles/styles';
 
 export const Feed = () => {
   const posts = getPosts();
 
   return (
-    <div className="Feed">
+    <div className="Feed" css={{ margin: '8px 0' }}>
       <ul>
         {posts.map((post, index) => (
           <li key={post.id}>
@@ -30,7 +30,7 @@ export const Feed = () => {
                     @{post.user.id}
                   </span>
                 </div>
-                <div>{post.content}</div>
+                <div css={{ fontSize: '16px' }}>{post.content}</div>
                 <div className="OperationIcons" css={operationMenuStyle}>
                   <div css={iconWrapperStyle}>
                     <img src={replyIcon} alt="返信" css={iconStyle} />
@@ -57,19 +57,19 @@ const containerStyle = css({
   width: '520px',
   padding: '12px 24px',
   ':hover': {
-    backgroundColor: '#f9f9f9',
+    backgroundColor: colorStyles.HOVER_COLOR_PRIMARY,
     cursor: 'pointer',
   },
 });
 
 const listBorder = css({
-  borderTop: '1px solid #eff3f4',
-  borderLeft: '1px solid #eff3f4',
-  borderRight: '1px solid #eff3f4',
+  borderTop: `1px solid ${colorStyles.BORDER_COLOR}`,
+  borderLeft: `1px solid ${colorStyles.BORDER_COLOR}`,
+  borderRight: `1px solid ${colorStyles.BORDER_COLOR}`,
 });
 
 const listBorder__last = css(listBorder, {
-  borderBottom: '1px solid #eff3f4',
+  borderBottom: `1px solid ${colorStyles.BORDER_COLOR}`,
 });
 
 const operationMenuStyle = css({
@@ -89,7 +89,7 @@ const iconWrapperStyle = css({
   height: '40px',
   borderRadius: '20px',
   ':hover': {
-    backgroundColor: '#e9e9e9',
+    backgroundColor: colorStyles.HOVER_COLOR_SECONDARY,
   },
 });
 

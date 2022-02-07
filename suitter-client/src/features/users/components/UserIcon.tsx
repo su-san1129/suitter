@@ -23,7 +23,7 @@ export const UserIcon = () => {
 const userIconContainerStyle = css({
   display: 'flex',
   alignItems: 'center',
-  margin: '8px 0',
+  margin: '16px',
 });
 
 const userIconStyle = css(icon__small, {
