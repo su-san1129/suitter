@@ -4,13 +4,17 @@ import profileIcon from 'assets/user-regular.svg';
 import { css } from '@emotion/react';
 import { colorStyles } from '../../styles/styles';
 import { Button } from '../elements/button/Button';
-import styled from '@emotion/styled';
+import { PostModal } from '../elements/Modal';
+import { useState } from 'react';
 
 export const SideNav = () => {
   const navList = [
     { label: 'ホーム', icon: homeIcon, link: '#' },
     { label: 'プロフィール', icon: profileIcon, link: '#' },
   ];
+
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShowModal(false);
 
   return (
     <header className="SideNav" css={sideNavContainerStyle}>
@@ -31,18 +35,16 @@ export const SideNav = () => {
           margin: '8px 0',
           width: '80%',
           height: '40px',
-          backgroundColor: '#1d9bf0',
-          borderRadius: '16px',
-          color: '#FFF',
           fontSize: '18px',
-          fontWeight: '700',
           ':hover': {
             opacity: '0.8',
           },
         }}
+        onClick={() => setShowModal(true)}
       >
         投稿する
       </Button>
+      <PostModal showState={showModal} handleClose={handleClose} />
       <UserIcon></UserIcon>
     </header>
   );

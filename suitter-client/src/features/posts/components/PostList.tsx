@@ -100,4 +100,5 @@ const iconStyle = css(icon__tiny, {
   right: '0',
   bottom: '0',
   margin: 'auto',
+  zIndex: '1',
 });
