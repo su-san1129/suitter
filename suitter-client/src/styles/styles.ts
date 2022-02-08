@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 export const colorStyles = {
+  PRIMARY: '#99cc33',
   HOVER_COLOR_PRIMARY: '#f9f9f9',
   HOVER_COLOR_SECONDARY: '#e9e9e9',
   BORDER_COLOR: '#eff3f4',
