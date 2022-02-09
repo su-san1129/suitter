@@ -6,13 +6,12 @@ import { icon__middle, icon__tiny } from '../../styles/styles';
 import { Button } from './button/Button';
 
 type Prop = {
-  showState: boolean;
   handleClose: () => void;
 };
 
-export const Modal: React.FC<Prop> = ({ showState, handleClose, children }) => {
+export const Modal: React.FC<Prop> = ({ handleClose, children }) => {
   return (
-    <div css={[modalStyle, showState ? displayBlockStyle : displayNoneStyle]}>
+    <div css={[modalStyle, displayBlockStyle]}>
       <section css={modalMainStyle}>
         <div className="ButtonHeader" css={modalHeaderStyle}>
           <button onClick={handleClose}>
@@ -25,7 +24,10 @@ export const Modal: React.FC<Prop> = ({ showState, handleClose, children }) => {
   );
 };
 
-export const PostModal: React.FC<Prop> = (props) => {
+export const PostModal: React.FC<Prop & { onSubmit: (postText: string) => void }> = ({
+  onSubmit,
+  ...props
+}) => {
   const editRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<string>('');
 
@@ -37,7 +39,7 @@ export const PostModal: React.FC<Prop> = (props) => {
           css={modalBodyTextStyle}
           contentEditable="true"
           ref={editRef}
-          onKeyUp={() => setText(editRef.current?.innerText as string)}
+          onInput={() => setText(editRef.current?.innerText as string)}
         />
       </div>
       {text.length === 0 && (
@@ -57,7 +59,7 @@ export const PostModal: React.FC<Prop> = (props) => {
       )}
       <hr />
       <div className="ButtonFooter" css={modalFooterStyle}>
-        <Button>投稿する</Button>
+        <Button onClick={() => onSubmit(text)}>投稿する</Button>
       </div>
     </Modal>
   );
@@ -104,8 +106,4 @@ const modalBodyTextStyle = css({
 
 const displayBlockStyle = css({
   display: 'block',
-});
-
-const displayNoneStyle = css({
-  display: 'none',
 });

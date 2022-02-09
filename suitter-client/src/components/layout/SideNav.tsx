@@ -15,6 +15,10 @@ export const SideNav = () => {
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
+  const onSubmit = (text: string) => {
+    alert(text);
+    handleClose();
+  };
 
   return (
     <header className="SideNav" css={sideNavContainerStyle}>
@@ -44,7 +48,7 @@ export const SideNav = () => {
       >
         投稿する
       </Button>
-      <PostModal showState={showModal} handleClose={handleClose} />
+      {showModal && <PostModal handleClose={handleClose} onSubmit={onSubmit} />}
       <UserIcon></UserIcon>
     </header>
   );
