@@ -49,7 +49,7 @@ export const SideNav = () => {
         投稿する
       </Button>
       {showModal && <PostModal handleClose={handleClose} onSubmit={onSubmit} />}
-      <UserIcon></UserIcon>
+      <UserIcon />
     </header>
   );
 };

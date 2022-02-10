@@ -6,10 +6,10 @@ export const Main = () => {
   return (
     <div className="Main">
       <div css={containerStyle}>
-        <SideNav></SideNav>
+        <SideNav />
         <div css={{ width: '60%' }}>
           ホーム
-          <Feed></Feed>
+          <Feed />
         </div>
       </div>
     </div>
