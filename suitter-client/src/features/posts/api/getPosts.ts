@@ -1,8 +1,8 @@
 import { Post } from '../types';
-import { getUser } from '../../users/api/getUser';
+import {getUser, getUserMock} from '../../users/api/getUser';
 
 export const getPosts = (): Post[] => {
-  const user = getUser();
+  const user = getUserMock();
 
   return [
     { id: 'post-1', user, content: 'sample-text-1', createdAt: '', updatedAt: '' },

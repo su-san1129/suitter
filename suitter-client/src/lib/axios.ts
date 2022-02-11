@@ -6,7 +6,7 @@ export const axios = Axios.create({
 
 axios.interceptors.response.use(
     (response) => {
-      return Promise.resolve(response);
+      return Promise.resolve(response.data);
     },
     (error) => {
       return Promise.reject(error);

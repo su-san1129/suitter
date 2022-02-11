@@ -1,22 +1,32 @@
-import { User } from '../types';
-import { getUser } from '../api/getUser';
-import { css } from '@emotion/react';
+import {useUser} from '../api/getUser';
+import {css} from '@emotion/react';
 import userRegularIcon from 'assets/user-regular.svg';
-import { icon__small } from '../../../styles/styles';
+import {icon__small} from '../../../styles/styles';
 
 export const UserIcon = () => {
-  const user: User = getUser();
+  const userQuery = useUser({id: 'user-id1'});
+
+  if (userQuery.isLoading) {
+    return (
+        <>
+          loading...
+        </>
+    );
+  }
+
+  if (!userQuery.data) return null;
+  const user = userQuery.data;
 
   return (
-    <div className="UserIcon">
-      <div css={userIconContainerStyle}>
-        <img src={userRegularIcon} css={userIconStyle} />
-        <div css={userNameWrapperStyle}>
-          <div>{user.name}</div>
-          <div css={userIdStyle}>@{user.id}</div>
+      <div className="UserIcon">
+        <div css={userIconContainerStyle}>
+          <img src={userRegularIcon} css={userIconStyle}/>
+          <div css={userNameWrapperStyle}>
+            <div>{user.name}</div>
+            <div css={userIdStyle}>@{user.id}</div>
+          </div>
         </div>
       </div>
-    </div>
   );
 };
 
