@@ -1,9 +1,10 @@
 package domain
 
 import play.api.libs.functional.syntax.{toFunctionalBuilderOps, unlift}
-import play.api.libs.json.{JsPath, Reads, Writes}
+import play.api.libs.json.{Reads, Writes, __}
 
 case class User(
+                 id: String,
                  name: String,
                  email: String,
                  password: String,
@@ -12,20 +13,22 @@ case class User(
                  icon: String
                )
 
-object JsonReadWrite {
+object User {
   implicit val userRead: Reads[User] = (
-    (JsPath \ "name").read[String] and
-      (JsPath \ "email").read[String] and
-      (JsPath \ "password").read[String] and
-      (JsPath \ "phoneNumber").read[Int] and
-      (JsPath \ "isPrivate").read[Boolean] and
-      (JsPath \ "icon").read[String]) (User.apply _)
+    (__ \ "id").read[String] and
+      (__ \ "name").read[String] and
+      (__ \ "email").read[String] and
+      (__ \ "password").read[String] and
+      (__ \ "phoneNumber").read[Int] and
+      (__ \ "isPrivate").read[Boolean] and
+      (__ \ "icon").read[String]) (User.apply _)
 
   implicit val userWrite: Writes[User] = (
-    (JsPath \ "name").write[String] and
-      (JsPath \ "email").write[String] and
-      (JsPath \ "password").write[String] and
-      (JsPath \ "phoneNumber").write[Int] and
-      (JsPath \ "isPrivate").write[Boolean] and
-      (JsPath \ "icon").write[String]) (unlift(User.unapply))
+    (__ \ "id").write[String] and
+      (__ \ "name").write[String] and
+      (__ \ "email").write[String] and
+      (__ \ "password").write[String] and
+      (__ \ "phoneNumber").write[Int] and
+      (__ \ "isPrivate").write[Boolean] and
+      (__ \ "icon").write[String]) (unlift(User.unapply))
 }
