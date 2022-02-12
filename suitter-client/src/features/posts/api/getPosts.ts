@@ -1,14 +1,20 @@
-import { Post } from '../types';
-import {getUser, getUserMock} from '../../users/api/getUser';
+import {Post} from '../types';
+import {axios} from "../../../lib/axios";
+import {QueryConfig} from "../../../lib/react-query";
+import {useQuery} from "react-query";
 
-export const getPosts = (): Post[] => {
-  const user = getUserMock();
+export const getPosts = (): Promise<Post[]> => {
+  return axios.get(`posts`);
+};
 
-  return [
-    { id: 'post-1', user, content: 'sample-text-1', createdAt: '', updatedAt: '' },
-    { id: 'post-2', user, content: 'sample-text-2', createdAt: '', updatedAt: '' },
-    { id: 'post-3', user, content: 'sample-text-3', createdAt: '', updatedAt: '' },
-    { id: 'post-4', user, content: 'sample-text-4', createdAt: '', updatedAt: '' },
-    { id: 'post-5', user, content: 'sample-text-5', createdAt: '', updatedAt: '' },
-  ];
+type UsePostsOptions = {
+  config?: QueryConfig<typeof getPosts>;
+};
+
+export const usePosts = ({config}: UsePostsOptions = {}) => {
+  return useQuery({
+    queryKey: ['posts'],
+    queryFn: () => getPosts(),
+    ...config,
+  });
 };

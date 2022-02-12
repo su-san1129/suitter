@@ -1,4 +1,4 @@
-package domain
+package models
 
 import play.api.libs.functional.syntax.{toFunctionalBuilderOps, unlift}
 import play.api.libs.json.{Reads, Writes, __}
@@ -10,8 +10,10 @@ case class User(
                  password: String,
                  phoneNumber: Int,
                  isPrivate: Boolean,
-                 icon: String
-               )
+                 icon: String,
+                 createdAt: Long,
+                 updatedAt: Long
+               ) extends BaseEntity
 
 object User {
   implicit val userRead: Reads[User] = (
@@ -21,7 +23,10 @@ object User {
       (__ \ "password").read[String] and
       (__ \ "phoneNumber").read[Int] and
       (__ \ "isPrivate").read[Boolean] and
-      (__ \ "icon").read[String]) (User.apply _)
+      (__ \ "icon").read[String] and
+      (__ \ "createdAt").read[Long] and
+      (__ \ "updatedAt").read[Long]
+    ) (User.apply _)
 
   implicit val userWrite: Writes[User] = (
     (__ \ "id").write[String] and
@@ -30,5 +35,8 @@ object User {
       (__ \ "password").write[String] and
       (__ \ "phoneNumber").write[Int] and
       (__ \ "isPrivate").write[Boolean] and
-      (__ \ "icon").write[String]) (unlift(User.unapply))
+      (__ \ "icon").write[String] and
+      (__ \ "createdAt").write[Long] and
+      (__ \ "updatedAt").write[Long]
+    ) (unlift(User.unapply))
 }

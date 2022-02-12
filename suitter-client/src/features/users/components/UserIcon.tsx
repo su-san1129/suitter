@@ -9,7 +9,6 @@ export const UserIcon = () => {
   if (userQuery.isLoading) {
     return (
         <>
-          loading...
         </>
     );
   }

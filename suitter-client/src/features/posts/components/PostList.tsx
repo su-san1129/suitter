@@ -1,53 +1,64 @@
-import { getPosts } from '../api/getPosts';
+import {usePosts} from '../api/getPosts';
 import userIcon from 'assets/user-regular.svg';
 import repostIcon from 'assets/repost.svg';
 import replyIcon from 'assets/comment-dots-regular.svg';
 import favoriteIcon from 'assets/heart-regular.svg';
-import { css } from '@emotion/react';
-import { colorStyles, icon__middle, icon__tiny } from '../../../styles/styles';
+import {css} from '@emotion/react';
+import {colorStyles, icon__middle, icon__tiny} from '../../../styles/styles';
 
 export const Feed = () => {
-  const posts = getPosts();
+  const postsQuery = usePosts();
+  if (postsQuery.isLoading) {
+    return (
+        <div>
+          loading...
+        </div>
+    );
+  }
+
+  if (!postsQuery.data) return null;
+  const posts = postsQuery.data;
 
   return (
-    <div className="Feed" css={{ margin: '8px 0' }}>
-      <ul>
-        {posts.map((post, index) => (
-          <li key={post.id}>
-            <div css={[containerStyle, posts.length - 1 === index ? listBorder__last : listBorder]}>
-              <img src={userIcon} alt="ユーザー画像" css={userIconStyle} />
-              <div>
-                <div css={{ width: '476px' }}>
-                  <span css={{ fontWeight: '700', marginRight: '4px', fontSize: '16px' }}>
+      <div className="Feed" css={{margin: '8px 0'}}>
+        <ul>
+          {posts.map((post, index) => (
+              <li key={post.id}>
+                <div
+                    css={[containerStyle, posts.length - 1 === index ? listBorder__last : listBorder]}>
+                  <img src={userIcon} alt="ユーザー画像" css={userIconStyle}/>
+                  <div>
+                    <div css={{width: '476px'}}>
+                  <span css={{fontWeight: '700', marginRight: '4px', fontSize: '16px'}}>
                     {post.user.name}
                   </span>
-                  <span
-                    css={{
-                      color: '#6e767d',
-                      fontSize: '14px',
-                    }}
-                  >
+                      <span
+                          css={{
+                            color: '#6e767d',
+                            fontSize: '14px',
+                          }}
+                      >
                     @{post.user.id}
                   </span>
+                    </div>
+                    <div css={{fontSize: '16px'}}>{post.content}</div>
+                    <div className="OperationIcons" css={operationMenuStyle}>
+                      <div css={iconWrapperStyle}>
+                        <img src={replyIcon} alt="返信" css={iconStyle}/>
+                      </div>
+                      <div css={iconWrapperStyle}>
+                        <img src={repostIcon} alt="拡散" css={iconStyle}/>
+                      </div>
+                      <div css={iconWrapperStyle}>
+                        <img src={favoriteIcon} alt="お気に入り" css={iconStyle}/>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div css={{ fontSize: '16px' }}>{post.content}</div>
-                <div className="OperationIcons" css={operationMenuStyle}>
-                  <div css={iconWrapperStyle}>
-                    <img src={replyIcon} alt="返信" css={iconStyle} />
-                  </div>
-                  <div css={iconWrapperStyle}>
-                    <img src={repostIcon} alt="拡散" css={iconStyle} />
-                  </div>
-                  <div css={iconWrapperStyle}>
-                    <img src={favoriteIcon} alt="お気に入り" css={iconStyle} />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+              </li>
+          ))}
+        </ul>
+      </div>
   );
 };
 
