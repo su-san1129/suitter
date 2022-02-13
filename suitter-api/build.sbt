@@ -9,7 +9,8 @@ scalaVersion := "2.13.8"
 
 libraryDependencies += guice
 libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
-
+libraryDependencies += "com.h2database" % "h2" % "2.1.210"
+libraryDependencies ++= Seq(evolutions, jdbc)
 // Adds additional packages into Twirl
 //TwirlKeys.templateImports += "com.example.controllers._"
 
