@@ -1,4 +1,4 @@
-package models
+package com.example.domain
 
 trait BaseEntity {
   val id: String;

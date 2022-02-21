@@ -1,18 +1,17 @@
-name := """suitter-api"""
-organization := "com.example"
+name := "suitter-api"
 
-version := "1.0-SNAPSHOT"
-
-lazy val root = (project in file(".")).enablePlugins(PlayScala)
+version := "0.1"
 
 scalaVersion := "2.13.8"
+val AkkaVersion = "2.6.18"
+val AkkaHttpVersion = "10.2.8"
 
-libraryDependencies += guice
-libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "5.0.0" % Test
-libraryDependencies += "com.h2database" % "h2" % "2.1.210"
-libraryDependencies ++= Seq(evolutions, jdbc)
-// Adds additional packages into Twirl
-//TwirlKeys.templateImports += "com.example.controllers._"
-
-// Adds additional packages into conf/routes
-// play.sbt.routes.RoutesKeys.routesImport += "com.example.binders._"
+libraryDependencies ++= Seq(
+  "org.scalikejdbc" %% "scalikejdbc" % "3.5.0",
+  "com.h2database" % "h2" % "1.4.200",
+  "ch.qos.logback" % "logback-classic" % "1.2.3",
+  "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
+  "com.typesafe.akka" %% "akka-stream" % AkkaVersion,
+  "com.typesafe.akka" %% "akka-http" % AkkaHttpVersion,
+  "com.typesafe.akka" %% "akka-http-spray-json" % AkkaHttpVersion
+)
