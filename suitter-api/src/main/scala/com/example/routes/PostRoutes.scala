@@ -2,10 +2,11 @@ package com.example.routes
 
 import akka.actor.typed._
 import akka.actor.typed.scaladsl.AskPattern._
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
-import com.example.registry.PostRegistry.GetPosts
+import com.example.registry.PostRegistry.{Create, GetPosts}
 import com.example.registry._
 
 import scala.concurrent.Future
@@ -19,6 +20,8 @@ class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val syst
 
   def getPosts(): Future[Posts] = postRegistry.ask(GetPosts)
 
+  def createPost(post: Post): Future[Post] = postRegistry.ask(Create(post, _))
+
   val postRoutes: Route =
     pathPrefix("posts") {
       concat(
@@ -26,6 +29,13 @@ class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val syst
           concat(
             get {
               complete(getPosts())
+            },
+            post {
+              entity(as[Post]) { post =>
+                onSuccess(createPost(post)) { p =>
+                  complete((StatusCodes.Created, p))
+                }
+              }
             }
           )
         })

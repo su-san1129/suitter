@@ -20,6 +20,7 @@ final case class Posts(users: immutable.Seq[Post])
 object PostRegistry {
   sealed trait Command
   final case class GetPosts(replyTo: ActorRef[Posts]) extends Command
+  final case class Create(post: Post, replyTo: ActorRef[Post]) extends Command
 
   def apply(): Behavior[Command] =
     Behaviors.receiveMessage {
@@ -32,6 +33,9 @@ object PostRegistry {
             System.currentTimeMillis(),
             System.currentTimeMillis()
           )))
+        Behaviors.same
+      case Create(post, replyTo) =>
+        replyTo ! post
         Behaviors.same
     }
 
