@@ -3,9 +3,9 @@ package com.example
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.server.Route
-import com.example.registry.UserRegistry
-import com.example.routes.UserRoutes
+import akka.http.scaladsl.server.{Directives, Route}
+import com.example.registry._
+import com.example.routes._
 
 import scala.util._
 
@@ -27,12 +27,20 @@ object Application {
   }
 
   def main(args: Array[String]): Unit = {
-      val rootBehavior = Behaviors.setup[Nothing] { context =>
+    val rootBehavior = Behaviors.setup[Nothing] { context =>
+      implicit val system: ActorSystem[Nothing] = context.system
       val userRegistryActor = context.spawn(UserRegistry(), "UserRegistryActor")
+      val postRegistryActor = context.spawn(PostRegistry(), "PostRegistryActor")
       context.watch(userRegistryActor)
+      context.watch(postRegistryActor)
 
-      val routes = new UserRoutes(userRegistryActor)(context.system)
-      startHttpServer(routes.userRoutes)(context.system)
+      val user = new UserRoutes(userRegistryActor)
+      val post = new PostRoutes(postRegistryActor)
+      val topLevelRoute = Directives.concat(
+        user.userRoutes,
+        post.postRoutes
+      )
+      startHttpServer(topLevelRoute)
 
       Behaviors.empty
     }
