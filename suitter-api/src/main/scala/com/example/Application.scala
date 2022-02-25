@@ -8,6 +8,7 @@ import com.example.registry._
 import com.example.routes._
 
 import scala.util._
+import config.JdbcConfig._
 
 object Application {
 
@@ -16,6 +17,7 @@ object Application {
     import system.executionContext
 
     val futureBinding = Http().newServerAt("localhost", 8080).bind(routes)
+    initConnection()
     futureBinding.onComplete {
       case Success(binding) =>
         val address = binding.localAddress
@@ -23,6 +25,10 @@ object Application {
       case Failure(ex) =>
         system.log.error("Failed to bind HTTP endpoint, terminating system", ex)
         system.terminate()
+    }
+
+    sys.addShutdownHook {
+      close()
     }
   }
 

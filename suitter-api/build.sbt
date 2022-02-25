@@ -8,6 +8,7 @@ val AkkaHttpVersion = "10.2.8"
 
 libraryDependencies ++= Seq(
   "org.scalikejdbc" %% "scalikejdbc" % "3.5.0",
+  "org.scalikejdbc" %% "scalikejdbc-config"  % "3.5.0",
   "com.h2database" % "h2" % "1.4.200",
   "ch.qos.logback" % "logback-classic" % "1.2.3",
   "com.typesafe.akka" %% "akka-actor-typed" % AkkaVersion,
