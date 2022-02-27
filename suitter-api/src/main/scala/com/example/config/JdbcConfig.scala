@@ -9,6 +9,7 @@ object JdbcConfig {
 
   import scalikejdbc._
   import scalikejdbc.config._
+
   implicit val session: AutoSession.type = AutoSession
 
   def initConnection()(implicit system: ActorSystem[_]): Unit = {

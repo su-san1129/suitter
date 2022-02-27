@@ -7,12 +7,14 @@ import akka.actor.typed.scaladsl.Behaviors
 import scala.collection.immutable
 import com.example.domain.BaseEntity
 
+import java.sql.Timestamp
+
 final case class User(
                        id: String,
                        name: String,
                        email: String,
                        password: String,
-                       phoneNumber: Int,
+                       phoneNumber: String,
                        isPrivate: Boolean,
                        icon: String,
                        createdAt: Long,
@@ -34,7 +36,7 @@ object UserRegistry {
             "user-" + i,
             "user-" + i + "@example.com",
             "password",
-            123,
+            "123",
             isPrivate = true,
             "no-icon",
             System.currentTimeMillis(),

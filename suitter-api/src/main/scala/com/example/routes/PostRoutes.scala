@@ -8,6 +8,7 @@ import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import com.example.registry.PostRegistry.{Create, GetPosts}
 import com.example.registry._
+import com.example.repository.PostRepository
 
 import scala.concurrent.Future
 

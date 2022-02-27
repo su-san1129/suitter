@@ -6,6 +6,9 @@ import akka.actor.typed.scaladsl.Behaviors
 
 import scala.collection.immutable
 import com.example.domain.BaseEntity
+import com.example.repository.PostRepository
+
+import java.sql.Timestamp
 
 final case class Post(
                        id: String,
@@ -15,27 +18,22 @@ final case class Post(
                        updatedAt: Long
                      ) extends BaseEntity
 
-final case class Posts(users: immutable.Seq[Post])
+final case class Posts(posts: immutable.Seq[Post])
 
 object PostRegistry {
   sealed trait Command
   final case class GetPosts(replyTo: ActorRef[Posts]) extends Command
   final case class Create(post: Post, replyTo: ActorRef[Post]) extends Command
 
+  final val repository: PostRepository = new PostRepository()
+
   def apply(): Behavior[Command] =
     Behaviors.receiveMessage {
       case GetPosts(replyTo) =>
-        replyTo ! Posts((1 to 5).map(i =>
-          Post(
-            "user-id" + i,
-            "user-id" + i,
-            "Content-" + i,
-            System.currentTimeMillis(),
-            System.currentTimeMillis()
-          )))
+        replyTo ! Posts(repository.findAll())
         Behaviors.same
       case Create(post, replyTo) =>
-        replyTo ! post
+        replyTo ! repository.create(post)
         Behaviors.same
     }
 
