@@ -33,6 +33,8 @@ object Application {
   }
 
   def main(args: Array[String]): Unit = {
+    import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
+
     val rootBehavior = Behaviors.setup[Nothing] { context =>
       implicit val system: ActorSystem[Nothing] = context.system
       val userRegistryActor = context.spawn(UserRegistry(), "UserRegistryActor")
@@ -42,10 +44,12 @@ object Application {
 
       val user = new UserRoutes(userRegistryActor)
       val post = new PostRoutes(postRegistryActor)
-      val topLevelRoute = Directives.concat(
-        user.userRoutes,
-        post.postRoutes
-      )
+      val topLevelRoute = cors() {
+        Directives.concat(
+          user.userRoutes,
+          post.postRoutes
+        )
+      }
       startHttpServer(topLevelRoute)
 
       Behaviors.empty
