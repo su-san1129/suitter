@@ -17,7 +17,7 @@ export const Feed = () => {
   }
 
   if (!postsQuery.data) return null;
-  const posts = postsQuery.data;
+  const posts = postsQuery.data.posts;
 
   return (
       <div className="Feed" css={{margin: '8px 0'}}>

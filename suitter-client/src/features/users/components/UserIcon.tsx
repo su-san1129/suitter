@@ -4,7 +4,7 @@ import userRegularIcon from 'assets/user-regular.svg';
 import {icon__small} from '../../../styles/styles';
 
 export const UserIcon = () => {
-  const userQuery = useUser({id: 'user-id1'});
+  const userQuery = useUser({id: 'test-user-id'});
 
   if (userQuery.isLoading) {
     return (

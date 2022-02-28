@@ -3,7 +3,7 @@ import {axios} from "../../../lib/axios";
 import {QueryConfig} from "../../../lib/react-query";
 import {useQuery} from "react-query";
 
-export const getPosts = (): Promise<Post[]> => {
+export const getPosts = (): Promise<{ posts: Post[] }> => {
   return axios.get(`posts`);
 };
 
