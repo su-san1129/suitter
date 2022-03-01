@@ -3,23 +3,21 @@ package com.example.repository
 import com.example.registry.Post
 import scalikejdbc.{WrappedResultSet, scalikejdbcSQLInterpolationImplicitDef}
 
-class PostRepository extends BaseRepository[Post] {
+final class PostRepository private extends BaseRepository[Post] {
 
-  object ConvertToPost {
-    def apply(rs: WrappedResultSet): Post = Post(
-      rs.string("id"),
-      rs.string("user_id"),
-      rs.string("content"),
-      rs.long("created_at"),
-      rs.long("updated_at"),
-    )
-  }
+  protected def convert(rs: WrappedResultSet): Post = Post(
+    rs.string("id"),
+    rs.string("user_id"),
+    rs.string("content"),
+    rs.long("created_at"),
+    rs.long("updated_at")
+  )
 
   override def findAll(): Seq[Post] = {
-    sql"SELECT * FROM posts".map(rs => ConvertToPost(rs)).list.apply()
+    sql"SELECT * FROM posts".map(convert).list.apply()
   }
 
-  override def findById(id: String): Post = ???
+  override def findById(id: String): Option[Post] = ???
 
   override def create(post: Post): Post = {
     sql"""
@@ -32,4 +30,10 @@ class PostRepository extends BaseRepository[Post] {
   override def update(t: Post): Post = ???
 
   override def deleteById(id: String): Unit = ???
+}
+
+object PostRepository {
+  val self: PostRepository = new PostRepository()
+
+  def apply(): PostRepository = self
 }

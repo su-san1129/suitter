@@ -11,5 +11,6 @@ object JsonFormats {
   implicit val usersJsonFormat: RootJsonFormat[Users] = jsonFormat1(Users)
 
   implicit val postJsonFormat: RootJsonFormat[Post] = jsonFormat5(Post)
+  implicit val postResponseJsonFormat: RootJsonFormat[PostResponse] = jsonFormat6(PostResponse)
   implicit val postsJsonFormat: RootJsonFormat[Posts] = jsonFormat1(Posts)
 }
