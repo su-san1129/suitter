@@ -6,9 +6,9 @@ import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
+import com.example.domain.post.CreatePostRequest
 import com.example.registry.PostRegistry.{Create, GetPosts}
 import com.example.registry._
-import com.example.repository.PostRepository
 
 import scala.concurrent.Future
 
@@ -21,7 +21,9 @@ class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val syst
 
   def getPosts(): Future[Posts] = postRegistry.ask(GetPosts)
 
-  def createPost(post: Post): Future[Post] = postRegistry.ask(Create(post, _))
+  def createPost(post: CreatePostRequest): Future[Post] = {
+    postRegistry.ask(Create(post.toPost(), _))
+  }
 
   val postRoutes: Route =
     pathPrefix("posts") {
@@ -32,8 +34,8 @@ class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val syst
               complete(getPosts())
             },
             post {
-              entity(as[Post]) { post =>
-                onSuccess(createPost(post)) { p =>
+              entity(as[CreatePostRequest]) { request =>
+                onSuccess(createPost(request)) { p =>
                   complete((StatusCodes.Created, p))
                 }
               }
