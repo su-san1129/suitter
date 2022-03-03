@@ -19,6 +19,8 @@ class UserRoutes(userRegistry: ActorRef[UserRegistry.Command])(implicit val syst
 
   def getUsers(): Future[Users] = userRegistry.ask(GetUsers)
 
+  def getUser(id: String): Future[GetUserResponse] = userRegistry.ask(GetUser(id, _))
+
   val userRoutes: Route =
     pathPrefix("users") {
       concat(
@@ -28,6 +30,18 @@ class UserRoutes(userRegistry: ActorRef[UserRegistry.Command])(implicit val syst
               complete(getUsers())
             }
           )
-        })
+        },
+        path(Segment) { id =>
+          concat(
+            get {
+              rejectEmptyResponse {
+                onSuccess(getUser(id)) { response =>
+                  complete(response.maybeUser)
+                }
+              }
+            }
+          )
+        }
+      )
     }
 }

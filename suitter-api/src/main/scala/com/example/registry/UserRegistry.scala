@@ -1,13 +1,11 @@
 package com.example.registry
 
-import akka.actor.typed.ActorRef
-import akka.actor.typed.Behavior
+import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.Behaviors
+import com.example.domain.BaseEntity
+import com.example.repository.UserRepository
 
 import scala.collection.immutable
-import com.example.domain.BaseEntity
-
-import java.sql.Timestamp
 
 final case class User(
                        id: String,
@@ -25,7 +23,14 @@ final case class Users(users: immutable.Seq[User])
 
 object UserRegistry {
   sealed trait Command
+
   final case class GetUsers(replyTo: ActorRef[Users]) extends Command
+
+  final case class GetUser(id: String, replyTo: ActorRef[GetUserResponse]) extends Command
+
+  final case class GetUserResponse(maybeUser: Option[User])
+
+  val repository: UserRepository = UserRepository()
 
   def apply(): Behavior[Command] =
     Behaviors.receiveMessage {
@@ -42,6 +47,9 @@ object UserRegistry {
             System.currentTimeMillis(),
             System.currentTimeMillis()
           )))
+        Behaviors.same
+      case GetUser(id, replyTo) =>
+        replyTo ! GetUserResponse(repository.findById(id))
         Behaviors.same
     }
 

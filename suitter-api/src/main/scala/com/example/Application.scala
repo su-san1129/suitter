@@ -3,12 +3,12 @@ package com.example
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.server.{Directives, Route}
+import akka.http.scaladsl.server.Route
+import com.example.config.JdbcConfig._
 import com.example.registry._
 import com.example.routes._
 
 import scala.util._
-import config.JdbcConfig._
 
 object Application {
 
@@ -33,6 +33,7 @@ object Application {
   }
 
   def main(args: Array[String]): Unit = {
+    import akka.http.scaladsl.server.Directives.concat
     import ch.megard.akka.http.cors.scaladsl.CorsDirectives._
 
     val rootBehavior = Behaviors.setup[Nothing] { context =>
@@ -45,7 +46,7 @@ object Application {
       val user = new UserRoutes(userRegistryActor)
       val post = new PostRoutes(postRegistryActor)
       val topLevelRoute = cors() {
-        Directives.concat(
+        concat(
           user.userRoutes,
           post.postRoutes
         )
