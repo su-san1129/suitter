@@ -1,22 +1,17 @@
-import {User} from '../types';
-import {QueryConfig} from "../../../lib/react-query";
-import {useQuery} from "react-query";
-import {axios} from "../../../lib/axios";
+import { User } from '../types';
+import { fetcher } from '../../../lib/axios';
+import useSWR from 'swr';
 
-export const getUser = (id: string): Promise<User> => {
-  return axios.get(`users/${id}`);
-};
+export const getUser = (url: string) => fetcher<User>(url);
 
-type UseUsersOptions = {
-  id: string,
-  config?: QueryConfig<typeof getUser>;
-};
+export const useUser = ({ id }: { id: string }) => {
+  const { data, error } = useSWR(`users/${id}`, getUser);
 
-export const useUser = (config: UseUsersOptions) => {
-  return useQuery({
-    queryKey: ['user', config.id],
-    queryFn: () => getUser(config.id),
-  });
+  return {
+    data: data as User,
+    isLoading: !error && !data,
+    isError: error,
+  };
 };
 
 export const getUserMock = (): User => {
@@ -31,4 +26,4 @@ export const getUserMock = (): User => {
     createdAt: '2022-02-06 01:05:00',
     updatedAt: '',
   };
-}
+};

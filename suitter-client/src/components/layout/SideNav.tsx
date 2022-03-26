@@ -6,11 +6,10 @@ import { colorStyles } from '../../styles/styles';
 import { Button } from '../elements/button/Button';
 import { PostModal } from '../elements/Modal';
 import { useState } from 'react';
-import { useCreatePost } from '../../features/posts/api/createPost';
 import { PostRequest } from '../../features/posts/types/request';
+import { useCreatePost } from '../../features/posts/api/createPost';
 
 export const SideNav = () => {
-  const createPostMutation = useCreatePost();
   const navList = [
     { label: 'ホーム', icon: homeIcon, link: '#' },
     { label: 'プロフィール', icon: profileIcon, link: '#' },
@@ -18,9 +17,9 @@ export const SideNav = () => {
 
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
-  const onSubmit = async (content: string) => {
+  const onSubmit = (content: string) => {
     const postRequest = { userId: 'test-user-id', content } as PostRequest;
-    await createPostMutation.mutateAsync({ data: { ...postRequest } });
+    useCreatePost({ data: postRequest });
     handleClose();
   };
 

@@ -1,19 +1,20 @@
-import { usePosts } from '../api/getPosts';
 import userIcon from 'assets/user-regular.svg';
 import repostIcon from 'assets/repost.svg';
 import replyIcon from 'assets/comment-dots-regular.svg';
 import favoriteIcon from 'assets/heart-regular.svg';
 import { css } from '@emotion/react';
 import { colorStyles, icon__middle, icon__tiny } from '../../../styles/styles';
+import { usePosts } from '../api/getPosts';
 
 export const Feed = () => {
-  const postsQuery = usePosts();
-  if (postsQuery.isLoading) {
+  const useQuery = usePosts();
+  if (useQuery.isLoading) {
     return <div>loading...</div>;
   }
 
-  if (!postsQuery.data) return null;
-  const posts = postsQuery.data.posts;
+  if (!useQuery.data) return null;
+  console.log(useQuery.data);
+  const posts = useQuery.data.posts;
 
   return (
     <>

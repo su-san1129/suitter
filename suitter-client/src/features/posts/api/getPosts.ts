@@ -1,20 +1,15 @@
-import {Post} from '../types';
-import {axios} from "../../../lib/axios";
-import {QueryConfig} from "../../../lib/react-query";
-import {useQuery} from "react-query";
+import { Post } from '../types';
+import { fetcher } from '../../../lib/axios';
+import useSWR from 'swr';
 
-export const getPosts = (): Promise<{ posts: Post[] }> => {
-  return axios.get(`posts`);
-};
+export const getPosts = (url: string) => fetcher<{ posts: Post[] }>(url);
 
-type UsePostsOptions = {
-  config?: QueryConfig<typeof getPosts>;
-};
+export const usePosts = () => {
+  const { data, error } = useSWR(`posts`, getPosts);
 
-export const usePosts = ({config}: UsePostsOptions = {}) => {
-  return useQuery({
-    queryKey: ['posts'],
-    queryFn: () => getPosts(),
-    ...config,
-  });
+  return {
+    data: data as { posts: Post[] },
+    isLoading: !error && !data,
+    isError: error,
+  };
 };

@@ -38,6 +38,9 @@ module.exports = {
         allowAsStatement: true,
       },
     ],
+    "@typescript-eslint/no-unsafe-assignment": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/no-empty-function": "off"
   },
   settings: {
     "import/resolver": {
