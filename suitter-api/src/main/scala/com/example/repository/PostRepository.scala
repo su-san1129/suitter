@@ -14,7 +14,7 @@ final class PostRepository private extends BaseRepository[Post] {
   )
 
   override def findAll(): Seq[Post] = {
-    sql"SELECT * FROM posts".map(convert).list.apply()
+    sql"SELECT * FROM posts ORDER BY created_at DESC".map(convert).list.apply()
   }
 
   override def findById(id: String): Option[Post] = ???
