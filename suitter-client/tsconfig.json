@@ -6,9 +6,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "types": [
-      "@emotion/react/types/css-prop"
-    ],
     "baseUrl": "src",
     "allowJs": true,
     "skipLibCheck": true,
@@ -22,8 +19,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "jsxImportSource": "@emotion/react"
+    "jsx": "react-jsx"
   },
   "include": [
     "src"
