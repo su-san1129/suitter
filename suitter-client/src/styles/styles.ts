@@ -1,28 +1,4 @@
-import { css } from '@emotion/react';
-
-export const colorStyles = {
-  PRIMARY: '#99cc33',
-  HOVER_COLOR_PRIMARY: '#f9f9f9',
-  HOVER_COLOR_SECONDARY: '#e9e9e9',
-  BORDER_COLOR: '#eff3f4',
-} as const;
-
-const icon = css({
-  borderRadius: '24px',
-  objectFit: 'fill',
-});
-
-export const icon__tiny = css({
-  width: '20px',
-  height: '20px',
-});
-
-export const icon__small = css(icon, {
-  width: '24px',
-  height: '24px',
-});
-
-export const icon__middle = css(icon, {
-  width: '40px',
-  height: '40px',
-});
+const icon = 'rounded-3xl object-fill ';
+export const icon__tiny = 'w-5 h-5';
+export const icon__small = icon + 'w-6 h-6';
+export const icon__middle = icon + 'w-7 h-7';

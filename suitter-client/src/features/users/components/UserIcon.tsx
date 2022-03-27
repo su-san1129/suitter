@@ -1,51 +1,26 @@
-import {useUser} from '../api/getUser';
-import {css} from '@emotion/react';
+import { useUser } from '../api/getUser';
 import userRegularIcon from 'assets/user-regular.svg';
-import {icon__small} from '../../../styles/styles';
+import { icon__small } from '../../../styles/styles';
 
 export const UserIcon = () => {
-  const userQuery = useUser({id: 'test-user-id'});
+  const userQuery = useUser({ id: 'test-user-id' });
 
   if (userQuery.isLoading) {
-    return (
-        <>
-        </>
-    );
+    return <></>;
   }
 
   if (!userQuery.data) return null;
   const user = userQuery.data;
 
   return (
-      <div className="UserIcon">
-        <div css={userIconContainerStyle}>
-          <img src={userRegularIcon} css={userIconStyle}/>
-          <div css={userNameWrapperStyle}>
-            <div>{user.name}</div>
-            <div css={userIdStyle}>@{user.id}</div>
-          </div>
+    <div className="UserIcon">
+      <div className="flex items-center m-4">
+        <img src={userRegularIcon} className={`mr-4 ${icon__small}`} alt="ユーザー画像" />
+        <div className="flex flex-col items-baseline">
+          <div>{user.name}</div>
+          <div className="text-gray-500 text-xs">@{user.id}</div>
         </div>
       </div>
+    </div>
   );
 };
-
-const userIconContainerStyle = css({
-  display: 'flex',
-  alignItems: 'center',
-  margin: '16px',
-});
-
-const userIconStyle = css(icon__small, {
-  marginRight: '16px',
-});
-
-const userNameWrapperStyle = css({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'baseline',
-});
-
-const userIdStyle = css({
-  color: '#6e767d',
-  fontSize: '12px',
-});

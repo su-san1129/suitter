@@ -1,4 +1,3 @@
-import { css } from '@emotion/react';
 import React, { useRef, useState } from 'react';
 import closeIcon from 'assets/times.svg';
 import userIcon from 'assets/user-regular.svg';
@@ -11,11 +10,11 @@ type Prop = {
 
 export const Modal: React.FC<Prop> = ({ handleClose, children }) => {
   return (
-    <div css={[modalStyle, displayBlockStyle]}>
-      <section css={modalMainStyle}>
-        <div className="ButtonHeader" css={modalHeaderStyle}>
+    <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-60 z-50 block">
+      <section className="fixed bg-white w-1/4 h-auto top-24 left-0 right-0 m-auto rounded-2xl p-4">
+        <div className="mb-4">
           <button onClick={handleClose}>
-            <img src={closeIcon} alt="閉じる" css={[icon__tiny]} />
+            <img src={closeIcon} alt="閉じる" className={icon__tiny} />
           </button>
         </div>
         {children}
@@ -33,10 +32,10 @@ export const PostModal: React.FC<Prop & { onSubmit: (postText: string) => void }
 
   return (
     <Modal {...props}>
-      <div className="ButtonBody" css={modalBodyStyle}>
-        <img src={userIcon} css={[icon__middle, { margin: '0 16px 0 0' }]} alt="ユーザ画像" />
+      <div className="flex">
+        <img src={userIcon} className={`${icon__middle} mr-4`} alt="ユーザ画像" />
         <div
-          css={modalBodyTextStyle}
+          className="w-full h-8 outline-none"
           contentEditable="true"
           ref={editRef}
           onInput={() => setText(editRef.current?.innerText as string)}
@@ -45,65 +44,17 @@ export const PostModal: React.FC<Prop & { onSubmit: (postText: string) => void }
       {text.length === 0 && (
         <div
           aria-readonly={true}
-          css={{
-            userSelect: 'none',
-            position: 'relative',
-            top: '-40px',
-            left: '52px',
-            opacity: '0.6',
-            pointerEvents: 'none',
-          }}
+          className="select-none relative t--30 left-10 opacity-60 pointer-events-none"
         >
           いまなにしてる？
         </div>
       )}
       <hr />
-      <div className="ButtonFooter" css={modalFooterStyle}>
-        <Button onClick={() => onSubmit(text)}>投稿する</Button>
+      <div className="text-right mt-2">
+        <Button color={'primary'} size={'small'} onClick={() => onSubmit(text)}>
+          投稿する
+        </Button>
       </div>
     </Modal>
   );
 };
-
-const modalStyle = css({
-  position: 'fixed',
-  top: '0',
-  left: '0',
-  width: '100%',
-  height: '100%',
-  background: 'rgba(0, 0, 0, 0.6)',
-  zIndex: '1000',
-});
-
-const modalMainStyle = css({
-  position: 'fixed',
-  background: 'white',
-  width: '25%',
-  height: 'auto',
-  top: '100px',
-  left: '40%',
-  borderRadius: '30px',
-  padding: '16px',
-});
-
-const modalHeaderStyle = css({
-  marginBottom: '32px',
-});
-
-const modalBodyStyle = css({
-  display: 'flex',
-});
-
-const modalFooterStyle = css({
-  textAlign: 'right',
-});
-
-const modalBodyTextStyle = css({
-  width: '100%',
-  height: '30%',
-  outline: 'none',
-});
-
-const displayBlockStyle = css({
-  display: 'block',
-});

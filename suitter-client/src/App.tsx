@@ -1,18 +1,13 @@
 import { Main } from './components/layout/MainLayout';
-import { css } from '@emotion/react';
 
 function App() {
   return (
-    <div className="App" css={styles}>
+    <div className="my-8 mx-16">
       <header className="App-header">
         <Main />
       </header>
     </div>
   );
 }
-
-const styles = css({
-  margin: '32px 64px',
-});
 
 export default App;

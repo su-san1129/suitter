@@ -1,16 +1,28 @@
 import React, { ButtonHTMLAttributes } from 'react';
-import { css } from '@emotion/react';
-import { colorStyles } from '../../../styles/styles';
 
-export const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement>> = (props) => {
-  return <button css={buttonStyle} {...props} />;
+type ButtonProps = {
+  buttonStyle?: string;
+  size: Size;
+  color: 'primary';
 };
 
-const buttonStyle = css({
-  width: '80px',
-  height: '30px',
-  backgroundColor: colorStyles.PRIMARY,
-  color: '#FFF',
-  fontWeight: '700',
-  borderRadius: '12px',
-});
+export const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps> = ({
+  size,
+  color,
+  ...props
+}) => {
+  return (
+    <button className={defaultButtonStyle.concat(sizeStyle[size], colorStyle[color])} {...props} />
+  );
+};
+
+const defaultButtonStyle = 'font-bold rounded-xl hover:opacity-80 ';
+
+type Size = 'small' | 'medium';
+const sizeStyle = {
+  small: 'w-20 h-8 ',
+  medium: 'my-2 w-4/5 h-10 text-lg ',
+};
+const colorStyle = {
+  primary: 'bg-primary text-white ',
+};

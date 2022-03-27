@@ -2,9 +2,9 @@ import userIcon from 'assets/user-regular.svg';
 import repostIcon from 'assets/repost.svg';
 import replyIcon from 'assets/comment-dots-regular.svg';
 import favoriteIcon from 'assets/heart-regular.svg';
-import { css } from '@emotion/react';
-import { colorStyles, icon__middle, icon__tiny } from '../../../styles/styles';
+import { icon__middle, icon__tiny } from '../../../styles/styles';
 import { usePosts } from '../api/getPosts';
+import { FC } from 'react';
 
 export const Feed = () => {
   const useQuery = usePosts();
@@ -13,45 +13,32 @@ export const Feed = () => {
   }
 
   if (!useQuery.data) return null;
-  console.log(useQuery.data);
   const posts = useQuery.data.posts;
 
   return (
     <>
-      <div className="Feed" css={{ margin: '8px 0' }}>
+      <div className="my-2">
         <ul>
           {posts &&
             posts.map((post, index) => (
               <li key={post.id}>
                 <div
-                  css={[containerStyle, posts.length - 1 === index ? listBorder__last : listBorder]}
+                  className={
+                    'flex items-start w-520 py-3 px-6 hover:bg-gray-50 cursor-pointer ' +
+                    (posts.length - 1 === index ? listBorder__last : listBorder)
+                  }
                 >
-                  <img src={userIcon} alt="ユーザー画像" css={userIconStyle} />
+                  <img src={userIcon} alt="ユーザー画像" className={`mr-4 ${icon__middle}`} />
                   <div>
-                    <div css={{ width: '476px' }}>
-                      <span css={{ fontWeight: '700', marginRight: '4px', fontSize: '16px' }}>
-                        {post.user.name}
-                      </span>
-                      <span
-                        css={{
-                          color: '#6e767d',
-                          fontSize: '14px',
-                        }}
-                      >
-                        @{post.user.id}
-                      </span>
+                    <div className="w-476">
+                      <span className="font-bold mr-1">{post.user.name}</span>
+                      <span className="text-gray-500 text-sm">@{post.user.id}</span>
                     </div>
-                    <div css={{ fontSize: '16px' }}>{post.content}</div>
-                    <div className="OperationIcons" css={operationMenuStyle}>
-                      <div css={iconWrapperStyle}>
-                        <img src={replyIcon} alt="返信" css={iconStyle} />
-                      </div>
-                      <div css={iconWrapperStyle}>
-                        <img src={repostIcon} alt="拡散" css={iconStyle} />
-                      </div>
-                      <div css={iconWrapperStyle}>
-                        <img src={favoriteIcon} alt="お気に入り" css={iconStyle} />
-                      </div>
+                    <div className="text-base">{post.content}</div>
+                    <div className="flex justify-between w-4/5">
+                      <OperationIcon src={replyIcon} alt={'返信'} />
+                      <OperationIcon src={repostIcon} alt={'拡散'} />
+                      <OperationIcon src={favoriteIcon} alt={'お気に入り'} />
                     </div>
                   </div>
                 </div>
@@ -63,54 +50,19 @@ export const Feed = () => {
   );
 };
 
-const containerStyle = css({
-  display: 'flex',
-  alignItems: 'flex-start',
-  width: '520px',
-  padding: '12px 24px',
-  ':hover': {
-    backgroundColor: colorStyles.HOVER_COLOR_PRIMARY,
-    cursor: 'pointer',
-  },
-});
+type OperationIconProps = {
+  src: string;
+  alt: string;
+};
+const OperationIcon: FC<OperationIconProps> = ({ src, alt }) => {
+  return (
+    <>
+      <div className={'relative w-5 h-5 rounded-2xl hover:bg-secondary'}>
+        <img src={src} alt={alt} className={`absolute inset-0 m-auto z-10 ${icon__tiny}`} />
+      </div>
+    </>
+  );
+};
 
-const listBorder = css({
-  borderTop: `1px solid ${colorStyles.BORDER_COLOR}`,
-  borderLeft: `1px solid ${colorStyles.BORDER_COLOR}`,
-  borderRight: `1px solid ${colorStyles.BORDER_COLOR}`,
-});
-
-const listBorder__last = css(listBorder, {
-  borderBottom: `1px solid ${colorStyles.BORDER_COLOR}`,
-});
-
-const operationMenuStyle = css({
-  display: 'flex',
-  width: '80%',
-  marginLeft: '-8px',
-  justifyContent: 'space-between',
-});
-
-const userIconStyle = css(icon__middle, {
-  marginRight: '16px',
-});
-
-const iconWrapperStyle = css({
-  position: 'relative',
-  width: '40px',
-  height: '40px',
-  borderRadius: '20px',
-  ':hover': {
-    backgroundColor: colorStyles.HOVER_COLOR_SECONDARY,
-  },
-});
-
-const iconStyle = css(icon__tiny, {
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  right: '0',
-  bottom: '0',
-  margin: 'auto',
-  zIndex: '1',
-});
+const listBorder = 'border-t border-l border-r border-solid border-gray-100';
+const listBorder__last = 'border-b border-solid border-gray-100 ';
