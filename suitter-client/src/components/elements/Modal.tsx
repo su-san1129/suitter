@@ -35,7 +35,7 @@ export const PostModal: React.FC<Prop & { onSubmit: (postText: string) => void }
       <div className="flex">
         <img src={userIcon} className={`${icon__middle} mr-4`} alt="ユーザ画像" />
         <div
-          className="w-full h-8 outline-none"
+          className="w-full outline-none min-h-[40px]"
           contentEditable="true"
           ref={editRef}
           onInput={() => setText(editRef.current?.innerText as string)}
@@ -44,7 +44,7 @@ export const PostModal: React.FC<Prop & { onSubmit: (postText: string) => void }
       {text.length === 0 && (
         <div
           aria-readonly={true}
-          className="select-none relative t--30 left-10 opacity-60 pointer-events-none"
+          className="select-none relative t--40 left-10 opacity-60 pointer-events-none"
         >
           いまなにしてる？
         </div>

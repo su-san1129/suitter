@@ -6,7 +6,7 @@ export const Main = () => {
     <div className="Main">
       <div className="flex justify-center ">
         <SideNav />
-        <div className="w-3/5">
+        <div className="w-720">
           ホーム
           <Feed />
         </div>

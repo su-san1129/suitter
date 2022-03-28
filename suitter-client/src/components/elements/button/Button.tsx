@@ -24,5 +24,5 @@ const sizeStyle = {
   medium: 'my-2 w-4/5 h-10 text-lg ',
 };
 const colorStyle = {
-  primary: 'bg-primary text-white ',
+  primary: 'bg-lime-400 text-white ',
 };
