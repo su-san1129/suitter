@@ -1,6 +1,4 @@
 import { UserIcon } from '../../features/users/components/UserIcon';
-import homeIcon from 'assets/home.svg';
-import profileIcon from 'assets/user-regular.svg';
 import { Button } from '../elements/button/Button';
 import { PostModal } from '../elements/Modal';
 import { useState } from 'react';
@@ -9,8 +7,8 @@ import { useCreatePost } from '../../features/posts/api/createPost';
 
 export const SideNav = () => {
   const navList = [
-    { label: 'ホーム', icon: homeIcon, link: '#' },
-    { label: 'プロフィール', icon: profileIcon, link: '#' },
+    { label: 'ホーム', icon: 'home.svg', link: '#' },
+    { label: 'プロフィール', icon: 'user-regular.svg', link: '#' },
   ];
 
   const [showModal, setShowModal] = useState(false);

@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react';
-import closeIcon from 'assets/times.svg';
-import userIcon from 'assets/user-regular.svg';
 import { icon__middle, icon__tiny } from '../../styles/styles';
 import { Button } from './button/Button';
 
@@ -14,7 +12,7 @@ export const Modal: React.FC<Prop> = ({ handleClose, children }) => {
       <section className="fixed bg-white w-1/4 h-auto top-24 left-0 right-0 m-auto rounded-2xl p-4">
         <div className="mb-4">
           <button onClick={handleClose}>
-            <img src={closeIcon} alt="閉じる" className={icon__tiny} />
+            <img src={'times.svg'} alt="閉じる" className={icon__tiny} />
           </button>
         </div>
         {children}
@@ -33,7 +31,7 @@ export const PostModal: React.FC<Prop & { onSubmit: (postText: string) => void }
   return (
     <Modal {...props}>
       <div className="flex">
-        <img src={userIcon} className={`${icon__middle} mr-4`} alt="ユーザ画像" />
+        <img src={'user-regular.svg'} className={`${icon__middle} mr-4`} alt="ユーザ画像" />
         <div
           className="w-full outline-none min-h-[40px]"
           contentEditable="true"

@@ -1,5 +1,4 @@
 import { useUser } from '../api/getUser';
-import userRegularIcon from 'assets/user-regular.svg';
 import { icon__small } from '../../../styles/styles';
 
 export const UserIcon = () => {
@@ -15,7 +14,7 @@ export const UserIcon = () => {
   return (
     <div className="UserIcon">
       <div className="flex items-center m-4">
-        <img src={userRegularIcon} className={`mr-4 ${icon__small}`} alt="ユーザー画像" />
+        <img src={'user-regular.svg'} className={`mr-4 ${icon__small}`} alt="ユーザー画像" />
         <div className="flex flex-col items-baseline">
           <div>{user.name}</div>
           <div className="text-gray-500 text-xs">@{user.id}</div>

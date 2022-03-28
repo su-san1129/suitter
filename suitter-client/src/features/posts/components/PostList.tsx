@@ -1,7 +1,3 @@
-import userIcon from 'assets/user-regular.svg';
-import repostIcon from 'assets/repost.svg';
-import replyIcon from 'assets/comment-dots-regular.svg';
-import favoriteIcon from 'assets/heart-regular.svg';
 import { icon__middle, icon__tiny } from '../../../styles/styles';
 import { usePosts } from '../api/getPosts';
 import { FC } from 'react';
@@ -29,7 +25,11 @@ export const Feed = () => {
                     (posts.length - 1 === index ? listBorder__last : listBorder)
                   }
                 >
-                  <img src={userIcon} alt="ユーザー画像" className={`mr-4 ${icon__middle}`} />
+                  <img
+                    src={'/user-regular.svg'}
+                    alt="ユーザー画像"
+                    className={`mr-4 ${icon__middle}`}
+                  />
                   <div className="w-full">
                     <div className="flex justify-between">
                       <div>
@@ -42,9 +42,9 @@ export const Feed = () => {
                     </div>
                     <div className="text-base">{post.content}</div>
                     <div className="flex justify-between w-4/5">
-                      <OperationIcon src={replyIcon} alt={'返信'} />
-                      <OperationIcon src={repostIcon} alt={'拡散'} />
-                      <OperationIcon src={favoriteIcon} alt={'お気に入り'} />
+                      <OperationIcon src={'comment-dots-regular.svg'} alt={'返信'} />
+                      <OperationIcon src={'repost.svg'} alt={'拡散'} />
+                      <OperationIcon src={'heart-regular.svg'} alt={'お気に入り'} />
                     </div>
                   </div>
                 </div>
