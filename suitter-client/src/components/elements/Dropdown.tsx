@@ -2,7 +2,12 @@ import { Menu, Transition } from '@headlessui/react';
 import React, { Fragment, SVGProps } from 'react';
 import { DotsHorizontalIcon } from '@heroicons/react/solid';
 
-export const Dropdown = () => {
+type Prop = {
+  id: string;
+  onClickDeleteButton: (id: string) => void;
+};
+
+export const Dropdown = ({ id, onClickDeleteButton }: Prop) => {
   return (
     <>
       <Menu as="div" className="relative inline-block text-left">
@@ -96,6 +101,7 @@ export const Dropdown = () => {
                     className={`${
                       active ? 'bg-gray-50' : 'text-gray-900'
                     } group flex rounded-md items-center w-full px-2 py-2 text-sm`}
+                    onClick={() => onClickDeleteButton(id)}
                   >
                     {active ? (
                       <DeleteActiveIcon

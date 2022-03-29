@@ -2,6 +2,7 @@ import { icon__middle, icon__tiny } from '../../../styles/styles';
 import { usePosts } from '../api/getPosts';
 import { FC } from 'react';
 import { Dropdown } from '../../../components/elements/Dropdown';
+import { useDeletePost } from '../api/deletePost';
 
 export const Feed = () => {
   const useQuery = usePosts();
@@ -11,6 +12,9 @@ export const Feed = () => {
 
   if (!useQuery.data) return null;
   const posts = useQuery.data.posts;
+  const onClickDelete = (postId: string) => {
+    useDeletePost(postId);
+  };
 
   return (
     <>
@@ -37,7 +41,7 @@ export const Feed = () => {
                         <span className="text-gray-500 text-sm">@{post.user.id}</span>
                       </div>
                       <div>
-                        <Dropdown />
+                        <Dropdown id={post.id} onClickDeleteButton={onClickDelete} />
                       </div>
                     </div>
                     <div className="text-base">{post.content}</div>
