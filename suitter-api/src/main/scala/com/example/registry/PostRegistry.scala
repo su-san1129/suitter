@@ -36,6 +36,10 @@ object PostRegistry {
 
   final case class Create(post: Post, replyTo: ActorRef[Post]) extends Command
 
+  final case class DeletePost(id: String, replyTo: ActorRef[ActionPerformed]) extends Command
+
+  final case class ActionPerformed(description: String)
+
   val repository: PostRepository = PostRepository()
   val userRepository: UserRepository = UserRepository()
 
@@ -52,6 +56,10 @@ object PostRegistry {
         Behaviors.same
       case Create(post, replyTo) =>
         replyTo ! repository.create(post)
+        Behaviors.same
+      case DeletePost(id, replyTo) =>
+        replyTo ! ActionPerformed(s"Post deleted.")
+        repository.deleteById(id)
         Behaviors.same
     }
 

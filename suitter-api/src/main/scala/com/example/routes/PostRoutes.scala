@@ -7,7 +7,7 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import com.example.domain.post.CreatePostRequest
-import com.example.registry.PostRegistry.{Create, GetPosts}
+import com.example.registry.PostRegistry.{ActionPerformed, Create, DeletePost, GetPosts}
 import com.example.registry._
 
 import scala.concurrent.Future
@@ -25,6 +25,8 @@ class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val syst
     postRegistry.ask(Create(post.toPost(), _))
   }
 
+  def deletePost(id: String): Future[ActionPerformed] = postRegistry.ask(DeletePost(id, _))
+
   val postRoutes: Route =
     pathPrefix("posts") {
       concat(
@@ -41,6 +43,14 @@ class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val syst
               }
             }
           )
-        })
+        },
+        path(Segment) { id =>
+          delete {
+            onSuccess(deletePost(id)) { performed =>
+              complete((StatusCodes.NoContent, performed))
+            }
+          }
+        }
+      )
     }
 }

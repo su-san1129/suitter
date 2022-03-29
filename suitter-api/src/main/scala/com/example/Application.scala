@@ -3,7 +3,10 @@ package com.example
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
+import akka.http.scaladsl.model.HttpMethod
+import akka.http.javadsl.model.HttpMethods.DELETE
 import akka.http.scaladsl.server.Route
+import ch.megard.akka.http.cors.javadsl.settings.CorsSettings
 import com.example.config.JdbcConfig._
 import com.example.registry._
 import com.example.routes._
@@ -45,6 +48,7 @@ object Application {
 
       val user = new UserRoutes(userRegistryActor)
       val post = new PostRoutes(postRegistryActor)
+
       val topLevelRoute = cors() {
         concat(
           user.userRoutes,

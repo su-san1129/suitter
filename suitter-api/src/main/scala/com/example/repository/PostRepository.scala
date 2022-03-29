@@ -29,7 +29,8 @@ final class PostRepository private extends BaseRepository[Post] {
 
   override def update(t: Post): Post = ???
 
-  override def deleteById(id: String): Unit = ???
+  override def deleteById(id: String): Unit =
+    sql"""DELETE FROM posts WHERE id = ${id}""".update().apply()
 }
 
 object PostRepository {
