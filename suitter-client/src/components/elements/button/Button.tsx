@@ -1,7 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
 type ButtonProps = {
-  buttonStyle?: string;
   size: Size;
   color: 'primary';
 };
