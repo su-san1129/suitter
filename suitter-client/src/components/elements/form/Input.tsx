@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
+import { FormItem } from './types';
 
 type Prop = {
   type?: 'text' | 'password';
   label: string;
   placeholder?: string;
   require?: boolean;
-  updateFormState: (obj: { [key: string]: boolean }) => void;
+  updateFormState: (obj: { [key: string]: FormItem }) => void;
 };
 export const Input: React.FC<Prop> = ({
   type = 'text',
@@ -29,7 +30,12 @@ export const Input: React.FC<Prop> = ({
           onInput={(e) => {
             const isRequired = require && !e.currentTarget.value;
             setIsRequired(isRequired);
-            updateFormState({ [label]: isRequired });
+            updateFormState({
+              [label]: {
+                isValid: isRequired,
+                value: e.currentTarget.value,
+              },
+            });
           }}
           onBlur={(e) => setIsRequired(require && !e.currentTarget.value)}
         />

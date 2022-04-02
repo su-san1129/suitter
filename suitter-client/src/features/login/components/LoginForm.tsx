@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { Input } from '../../../components/elements/form/Input';
+import { login } from '../api/login';
+import { useRouter } from 'next/router';
+import { axios } from '../../../lib/axios';
+import { FormItem } from '../../../components/elements/form/types';
 
 export const LoginForm = () => {
-  const [formItem, setFormItem] = useState<{ [key: string]: boolean }>({});
+  const [formItem, setFormItem] = useState<{ [key: string]: FormItem }>({});
   const [invalid, setInvalid] = useState<boolean>(false);
-  const updateFormState = (obj: { [key: string]: boolean }) => {
+  const router = useRouter();
+  const updateFormState = (obj: { [key: string]: FormItem }) => {
     const assign = Object.assign(formItem, obj);
     setFormItem(assign);
-    setInvalid(Object.keys(formItem).some((key) => formItem[key]));
+    setInvalid(Object.keys(formItem).some((key) => formItem[key].isValid));
   };
 
   return (
@@ -35,6 +40,14 @@ export const LoginForm = () => {
             }
             type="button"
             disabled={invalid}
+            onClick={() => {
+              login(formItem['メールアドレス'].value, formItem['パスワード'].value)
+                .then((token) => {
+                  axios.defaults.headers.common['Authorization'] = token;
+                  router.replace('/');
+                })
+                .catch((err) => console.error(err));
+            }}
           >
             ログイン
           </button>
