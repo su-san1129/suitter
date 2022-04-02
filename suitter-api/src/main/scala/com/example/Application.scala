@@ -3,14 +3,16 @@ package com.example
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
-import akka.http.scaladsl.model.HttpMethod
-import akka.http.javadsl.model.HttpMethods.DELETE
+import akka.http.scaladsl.model.headers.{HttpChallenge, OAuth2BearerToken}
+import akka.http.scaladsl.server.Directives.authenticateOrRejectWithChallenge
 import akka.http.scaladsl.server.Route
-import ch.megard.akka.http.cors.javadsl.settings.CorsSettings
+import akka.http.scaladsl.server.directives.{AuthenticationDirective, AuthenticationResult}
+import com.example.config.JWTConfig
 import com.example.config.JdbcConfig._
 import com.example.registry._
 import com.example.routes._
 
+import scala.concurrent.Future
 import scala.util._
 
 object Application {
@@ -47,12 +49,17 @@ object Application {
       context.watch(postRegistryActor)
 
       val user = new UserRoutes(userRegistryActor)
-      val post = new PostRoutes(postRegistryActor)
+      val postRoutes = new PostRoutes(postRegistryActor)
 
       val topLevelRoute = cors() {
         concat(
-          user.userRoutes,
-          post.postRoutes
+          authenticate(system) { _a =>
+            concat(
+              user.userRoutes,
+              postRoutes.postRoutes,
+            )
+          },
+          LoginRoutes.apply
         )
       }
       startHttpServer(topLevelRoute)
@@ -60,5 +67,17 @@ object Application {
       Behaviors.empty
     }
     val system = ActorSystem[Nothing](rootBehavior, "AkkaHttpServer")
+  }
+
+  private def authenticate(system: ActorSystem[_]): AuthenticationDirective[String] = {
+    authenticateOrRejectWithChallenge[OAuth2BearerToken, String] {
+      case Some(OAuth2BearerToken(token)) if JWTConfig.validate(token) =>
+        Future.successful(AuthenticationResult.success("success"))
+      case _ =>
+        system.log.error("401: unauthorized.")
+        Future.successful(AuthenticationResult.failWithChallenge(
+          HttpChallenge("bearer", None, Map("error" -> "invalid_token")))
+        )
+    }
   }
 }
