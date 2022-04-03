@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Input } from '../../../components/elements/form/Input';
 import { login } from '../api/login';
 import { useRouter } from 'next/router';
-import { axios } from '../../../lib/axios';
 import { FormItem } from '../../../components/elements/form/types';
+import nookies from 'nookies';
 
 export const LoginForm = () => {
   const [formItem, setFormItem] = useState<{ [key: string]: FormItem }>({});
@@ -38,15 +38,19 @@ export const LoginForm = () => {
               (invalid ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-700') +
               ' text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
             }
-            type="button"
+            type="submit"
             disabled={invalid}
-            onClick={() => {
+            onClick={(e) => {
               login(formItem['メールアドレス'].value, formItem['パスワード'].value)
                 .then((token) => {
-                  axios.defaults.headers.common['Authorization'] = token;
+                  nookies.set(null, 'credentials', token, {
+                    maxAge: 30 * 24 * 60 * 60,
+                    path: '/',
+                  });
                   router.replace('/');
                 })
                 .catch((err) => console.error(err));
+              e.preventDefault();
             }}
           >
             ログイン
