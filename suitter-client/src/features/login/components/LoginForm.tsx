@@ -17,17 +17,17 @@ export const LoginForm = () => {
 
   return (
     <div className="w-4/5 m-auto">
-      <form className="">
+      <form>
         <Input
-          label={'メールアドレス'}
-          placeholder={'suitter@example.com'}
+          label="メールアドレス"
+          placeholder="suitter@example.com"
           require={true}
           updateFormState={updateFormState}
         />
 
         <Input
           type="password"
-          label={'パスワード'}
+          label="パスワード"
           placeholder="******************"
           require={true}
           updateFormState={updateFormState}

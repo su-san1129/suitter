@@ -49,7 +49,7 @@ export const PostModal: React.FC<Prop & { onSubmit: (postText: string) => void }
       )}
       <hr />
       <div className="text-right mt-2">
-        <Button color={'primary'} size={'small'} onClick={() => onSubmit(text)}>
+        <Button color="primary" size="small" onClick={() => onSubmit(text)}>
           投稿する
         </Button>
       </div>

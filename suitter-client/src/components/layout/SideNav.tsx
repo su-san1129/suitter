@@ -32,7 +32,7 @@ export const SideNav = () => {
           </li>
         ))}
       </nav>
-      <Button type="submit" color={'primary'} size={'medium'} onClick={() => setShowModal(true)}>
+      <Button type="submit" color="primary" size="medium" onClick={() => setShowModal(true)}>
         投稿する
       </Button>
       {showModal && <PostModal handleClose={handleClose} onSubmit={onSubmit} />}

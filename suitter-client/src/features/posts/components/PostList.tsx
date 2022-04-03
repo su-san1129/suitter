@@ -46,9 +46,9 @@ export const Feed = () => {
                     </div>
                     <div className="text-base">{post.content}</div>
                     <div className="flex justify-between w-4/5">
-                      <OperationIcon src={'comment-dots-regular.svg'} alt={'返信'} />
-                      <OperationIcon src={'repost.svg'} alt={'拡散'} />
-                      <OperationIcon src={'heart-regular.svg'} alt={'お気に入り'} />
+                      <OperationIcon src="comment-dots-regular.svg" alt="返信" />
+                      <OperationIcon src="repost.svg" alt="拡散" />
+                      <OperationIcon src="heart-regular.svg" alt="お気に入り" />
                     </div>
                   </div>
                 </div>
@@ -68,7 +68,7 @@ type OperationIconProps = {
 export const OperationIcon: FC<OperationIconProps> = ({ src, alt }) => {
   return (
     <>
-      <div className={'relative w-7 h-7 rounded-2xl hover:bg-secondary'}>
+      <div className="relative w-7 h-7 rounded-2xl hover:bg-secondary">
         <img src={src} alt={alt} className={`absolute inset-0 m-auto z-10 ${icon__tiny}`} />
       </div>
     </>
