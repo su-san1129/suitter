@@ -4,8 +4,8 @@ import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.headers.{HttpChallenge, OAuth2BearerToken}
-import akka.http.scaladsl.server.Directives.authenticateOrRejectWithChallenge
-import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.server.Directives.{authenticateOrRejectWithChallenge, handleRejections}
+import akka.http.scaladsl.server._
 import akka.http.scaladsl.server.directives.{AuthenticationDirective, AuthenticationResult}
 import com.example.config.JWTConfig
 import com.example.config.JdbcConfig._
@@ -50,18 +50,20 @@ object Application {
 
       val user = new UserRoutes(userRegistryActor)
       val postRoutes = new PostRoutes(postRegistryActor)
-
-      val topLevelRoute = cors() {
-        concat(
-          authenticate(system) { _a =>
+      val topLevelRoute =
+        cors() {
+          handleRejections(AppRejectionHandler()) {
             concat(
-              user.userRoutes,
-              postRoutes.postRoutes,
+              authenticate(system) { _a =>
+                concat(
+                  user.userRoutes,
+                  postRoutes.postRoutes,
+                )
+              },
+              LoginRoutes.apply
             )
-          },
-          LoginRoutes.apply
-        )
-      }
+          }
+        }
       startHttpServer(topLevelRoute)
 
       Behaviors.empty
