@@ -1,12 +1,12 @@
 import { Main } from '../components/layout/MainLayout';
-import { useEffect, useState } from 'react';
+import { useLayoutEffect, useState } from 'react';
 import { parseCookies } from 'nookies';
 import Login from './login';
 
 function App() {
   const [existUser, setExistUser] = useState<boolean>(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const cookies = parseCookies();
     const credentials = cookies.credentials;
     if (credentials) {
