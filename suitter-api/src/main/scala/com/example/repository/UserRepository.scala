@@ -20,7 +20,10 @@ final class UserRepository private extends BaseRepository[User] {
 
   override def findById(id: String): Option[User] = sql"SELECT * FROM users WHERE id = $id".map(convert).single().apply()
 
-  override def create(t: User): User = ???
+  override def create(user: User): User = {
+    sql"INSERT INTO users VALUES (${user.id}, ${user.name}, ${user.email}, ${user.password}, ${user.phoneNumber}, ${user.isPrivate}, ${user.icon}, ${user.createdAt}, ${user.updatedAt})".update.apply()
+    user
+  }
 
   override def update(t: User): User = ???
 

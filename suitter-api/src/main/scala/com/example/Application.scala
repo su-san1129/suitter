@@ -60,7 +60,8 @@ object Application {
                   postRoutes.postRoutes,
                 )
               },
-              LoginRoutes.apply
+              LoginRoutes.apply,
+              user.whiteRoutes
             )
           }
         }

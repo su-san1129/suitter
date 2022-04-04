@@ -2,7 +2,11 @@ package com.example.registry
 
 import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.Behaviors
+import akka.http.scaladsl.server.AuthorizationFailedRejection
+import akka.http.scaladsl.server.Directives.reject
+import com.example.config.JWTConfig
 import com.example.domain.BaseEntity
+import com.example.registry.UserRegistry.repository
 import com.example.repository.UserRepository
 
 import scala.collection.immutable
@@ -28,6 +32,8 @@ object UserRegistry {
 
   final case class GetUser(id: String, replyTo: ActorRef[GetUserResponse]) extends Command
 
+  final case class CreateUser(user: User, replyTo: ActorRef[GetUserResponse]) extends Command
+
   final case class GetUserResponse(maybeUser: Option[User])
 
   val repository: UserRepository = UserRepository()
@@ -50,6 +56,10 @@ object UserRegistry {
         Behaviors.same
       case GetUser(id, replyTo) =>
         replyTo ! GetUserResponse(repository.findById(id))
+        Behaviors.same
+      case CreateUser(user, replyTo) =>
+        replyTo ! GetUserResponse(Option(user))
+        repository.create(user)
         Behaviors.same
     }
 

@@ -1,11 +1,12 @@
 package com.example.routes
 
+import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.model.{HttpResponse, StatusCodes}
 import akka.http.scaladsl.server.Directives.complete
-import akka.http.scaladsl.server.{AuthenticationFailedRejection, MethodRejection, MissingCookieRejection, RejectionHandler, ValidationRejection}
+import akka.http.scaladsl.server.{AuthenticationFailedRejection, MethodRejection, MissingCookieRejection, Rejection, RejectionHandler, ValidationRejection}
 
 object AppRejectionHandler {
-  def apply(): RejectionHandler =
+  def apply()(implicit system: ActorSystem[_]): RejectionHandler =
     RejectionHandler.newBuilder()
       .handle {
         case MissingCookieRejection(cookieName) =>
@@ -25,6 +26,12 @@ object AppRejectionHandler {
       }
       .handleNotFound {
         complete((StatusCodes.NotFound, "Not here!"))
+      }
+      .handleAll[Rejection] {
+        rejections => {
+          system.log.error(rejections.map(_.toString).mkString)
+          complete(StatusCodes.InternalServerError)
+        }
       }
       .result()
 }
