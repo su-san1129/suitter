@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { parseCookies } from 'nookies';
+import nookies, { parseCookies } from 'nookies';
 
 export const axios = Axios.create({
   baseURL: 'http://localhost:8080',
@@ -20,6 +20,11 @@ axios.interceptors.response.use(
     return Promise.resolve(response.data);
   },
   (error) => {
+    const res = error.response;
+    if (res.status === 401 || !res.statusText) {
+      nookies.destroy(null, 'credentials');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );
