@@ -1,8 +1,8 @@
 import { icon__middle, icon__tiny } from '../../../styles/styles';
 import { usePosts } from '../api/getPosts';
 import { FC } from 'react';
-import { Dropdown } from '../../../components/elements/Dropdown';
 import { useDeletePost } from '../api/deletePost';
+import { PostMenu } from '../../../components/elements/menu/PostMenu';
 
 export const Feed = () => {
   const useQuery = usePosts();
@@ -41,7 +41,7 @@ export const Feed = () => {
                         <span className="text-gray-500 text-sm">@{post.user.id}</span>
                       </div>
                       <div>
-                        <Dropdown id={post.id} onClickDeleteButton={onClickDelete} />
+                        <PostMenu id={post.id} onClickDeleteButton={onClickDelete} />
                       </div>
                     </div>
                     <div className="text-base">{post.content}</div>
@@ -65,7 +65,7 @@ type OperationIconProps = {
   alt: string;
 };
 
-export const OperationIcon: FC<OperationIconProps> = ({ src, alt }) => {
+const OperationIcon: FC<OperationIconProps> = ({ src, alt }) => {
   return (
     <>
       <div className="relative w-7 h-7 rounded-2xl hover:bg-secondary">

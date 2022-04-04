@@ -1,7 +1,7 @@
 import { Button } from '../components/elements/button/Button';
 import { Modal } from '../components/elements/Modal';
 import { useState } from 'react';
-import { LoginForm } from '../features/login/components/LoginForm';
+import { LoginForm } from '../features/auth/components/LoginForm';
 
 export default function Login() {
   const [showModal, setShowModal] = useState(false);

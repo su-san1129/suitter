@@ -8,11 +8,13 @@ import nookies from 'nookies';
 export const LoginForm = () => {
   const [formItem, setFormItem] = useState<{ [key: string]: FormItem }>({});
   const [invalid, setInvalid] = useState<boolean>(false);
+  const [isError, setError] = useState<boolean>(false);
   const router = useRouter();
   const updateFormState = (obj: { [key: string]: FormItem }) => {
     const assign = Object.assign(formItem, obj);
     setFormItem(assign);
     setInvalid(Object.keys(formItem).some((key) => formItem[key].isValid));
+    setError(false);
   };
 
   return (
@@ -32,6 +34,11 @@ export const LoginForm = () => {
           require={true}
           updateFormState={updateFormState}
         />
+        {isError && (
+          <p className="text-red-500 text-xs italic mb-4">
+            メールアドレスまたはパスワードが違います。
+          </p>
+        )}
         <div className="flex items-center justify-between">
           <button
             className={
@@ -47,9 +54,9 @@ export const LoginForm = () => {
                     maxAge: 30 * 24 * 60 * 60,
                     path: '/',
                   });
-                  router.replace('/');
+                  router.push('/');
                 })
-                .catch((err) => console.error(err));
+                .catch(() => setError(true));
               e.preventDefault();
             }}
           >
