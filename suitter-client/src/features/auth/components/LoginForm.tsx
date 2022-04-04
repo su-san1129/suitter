@@ -4,6 +4,7 @@ import { login } from '../api/login';
 import { useRouter } from 'next/router';
 import { FormItem } from '../../../components/elements/form/types';
 import nookies from 'nookies';
+import { Button } from '../../../components/elements/button/Button';
 
 export const LoginForm = () => {
   const [formItem, setFormItem] = useState<{ [key: string]: FormItem }>({});
@@ -40,11 +41,7 @@ export const LoginForm = () => {
           </p>
         )}
         <div className="flex items-center justify-between">
-          <button
-            className={
-              (invalid ? 'bg-gray-300' : 'bg-blue-500 hover:bg-blue-700') +
-              ' text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
-            }
+          <Button
             type="submit"
             disabled={invalid}
             onClick={(e) => {
@@ -59,9 +56,11 @@ export const LoginForm = () => {
                 .catch(() => setError(true));
               e.preventDefault();
             }}
+            size="small"
+            color={!invalid ? 'primary' : 'disabled'}
           >
             ログイン
-          </button>
+          </Button>
           <a
             className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
             href="#"
