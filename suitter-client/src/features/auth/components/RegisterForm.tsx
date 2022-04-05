@@ -19,7 +19,7 @@ export const RegisterForm = () => {
   const isError = 0 < Object.keys(errors).length;
 
   return (
-    <div className="w-4/5 m-auto">
+    <div className="2xl:w-4/5 w-full m-auto">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Input
           registration={register('name', { required: true })}

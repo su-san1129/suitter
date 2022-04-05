@@ -10,7 +10,7 @@ export default function Login() {
   return (
     <>
       <div className="container my-16 mx-auto flex items-center flex-col text-center">
-        <h1 className="xl:text-8xl text-3xl">すべての話題が、ここに。</h1>
+        <h1 className="2xl:text-8xl text-3xl">すべての話題が、ここに。</h1>
         <div className="w-4/5 my-8">
           <Button
             type="submit"

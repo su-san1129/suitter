@@ -30,7 +30,7 @@ export const LoginForm = () => {
   const hasError = 0 < Object.keys(errors).length;
 
   return (
-    <div className="w-4/5 m-auto">
+    <div className="2xl:w-4/5 w-full m-auto">
       <form onSubmit={handleSubmit(onSubmit)} onChange={() => setError(false)}>
         <Input
           registration={register('email', { required: true })}
@@ -49,7 +49,7 @@ export const LoginForm = () => {
             メールアドレスまたはパスワードが違います。
           </p>
         )}
-        <div className="flex items-center justify-between">
+        <div className="flex 2xl:items-center 2xl:justify-between flex-col 2xl:flex-row">
           <Button
             type="submit"
             disabled={hasError}
@@ -58,12 +58,14 @@ export const LoginForm = () => {
           >
             ログイン
           </Button>
-          <a
-            className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-            href="#"
-          >
-            Forgot Password
-          </a>
+          <div>
+            <a
+              className="mt-4 2xl:mt-0 block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800 text-right"
+              href="#"
+            >
+              Forgot Password
+            </a>
+          </div>
         </div>
       </form>
     </div>
