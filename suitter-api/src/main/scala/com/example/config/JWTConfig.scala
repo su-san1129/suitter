@@ -6,10 +6,11 @@ import scala.util.Try
 
 object JWTConfig {
 
-  val secretKey = "suiiter-securet-key"
+  // FIXME: 環境変数に変更する
+  val secretKey = "suitter-secret-key"
 
   def generateToken(email: String): String = {
-    val token = Jwt.encode(s"""{"email":${email}""", secretKey, JwtAlgorithm.HS256)
+    val token = Jwt.encode(s"""{email:$email}""", secretKey, JwtAlgorithm.HS256)
     token
   }
 
