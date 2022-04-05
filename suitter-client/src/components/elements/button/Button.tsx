@@ -18,7 +18,7 @@ export const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement> & ButtonPr
   const buttonColor = outline ? outlineColorStyle[color] : colorStyle[color];
   return (
     <button
-      className={`font-bold rounded-xl ${buttonColor} ${sizeStyle[size]}`}
+      className={`font-bold rounded ${buttonColor} ${sizeStyle[size]}`}
       {...props}
       onClick={onClick}
     />

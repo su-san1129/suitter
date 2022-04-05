@@ -20,3 +20,8 @@ body {
 .w-720 {
   width: 720px;
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #FFF inset;
+  -webkit-text-fill-color: #000;
+}

@@ -1,46 +1,35 @@
-import React, { useRef, useState } from 'react';
-import { FormItem } from './types';
+import React from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form/dist/types/form';
+import { FieldError } from 'react-hook-form';
 
 type Prop = {
+  registration: UseFormRegisterReturn;
   type?: 'text' | 'password';
   label: string;
   placeholder?: string;
-  require?: boolean;
-  updateFormState: (obj: { [key: string]: FormItem }) => void;
+  error?: FieldError | undefined;
+  onChange?: () => void;
 };
 export const Input: React.FC<Prop> = ({
+  registration,
   type = 'text',
   label,
   placeholder,
-  require = false,
-  updateFormState,
+  error,
 }) => {
-  const inputElement = useRef<HTMLInputElement>(null);
-  const [isRequired, setIsRequired] = useState(false);
-
   return (
     <>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">{label}</label>
         <input
+          {...registration}
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type={type}
           placeholder={placeholder}
-          ref={inputElement}
-          onInput={(e) => {
-            const isRequired = require && !e.currentTarget.value;
-            setIsRequired(isRequired);
-            updateFormState({
-              [label]: {
-                isValid: isRequired,
-                value: e.currentTarget.value,
-              },
-            });
-          }}
-          onBlur={(e) => setIsRequired(require && !e.currentTarget.value)}
         />
-
-        {isRequired && <p className="text-red-500 text-xs italic">{label}を入力してください。</p>}
+        {error && error.type === 'required' && (
+          <p className="text-red-500 text-xs italic">{label}を入力してください。</p>
+        )}
       </div>
     </>
   );

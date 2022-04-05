@@ -2,38 +2,47 @@ import React, { useState } from 'react';
 import { Input } from '../../../components/elements/form/Input';
 import { login } from '../api/login';
 import { useRouter } from 'next/router';
-import { FormItem } from '../../../components/elements/form/types';
 import nookies from 'nookies';
 import { Button } from '../../../components/elements/button/Button';
+import { useForm } from 'react-hook-form';
+import { LoginFormInputs } from '../types/Login';
 
 export const LoginForm = () => {
-  const [formItem, setFormItem] = useState<{ [key: string]: FormItem }>({});
-  const [invalid, setInvalid] = useState<boolean>(false);
-  const [isError, setError] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormInputs>();
   const router = useRouter();
-  const updateFormState = (obj: { [key: string]: FormItem }) => {
-    const assign = Object.assign(formItem, obj);
-    setFormItem(assign);
-    setInvalid(Object.keys(formItem).some((key) => formItem[key].isValid));
-    setError(false);
+  const [isError, setError] = useState<boolean>(false);
+  const onSubmit = ({ email, password }: LoginFormInputs) => {
+    login(email, password)
+      .then((token) => {
+        nookies.set(null, 'credentials', token, {
+          maxAge: 30 * 24 * 60 * 60,
+          path: '/',
+        });
+        router.push('/');
+      })
+      .catch(() => setError(true));
   };
+
+  const hasError = 0 < Object.keys(errors).length;
 
   return (
     <div className="w-4/5 m-auto">
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)} onChange={() => setError(false)}>
         <Input
+          registration={register('email', { required: true })}
           label="メールアドレス"
           placeholder="suitter@example.com"
-          require={true}
-          updateFormState={updateFormState}
         />
 
         <Input
+          registration={register('password', { required: true })}
           type="password"
           label="パスワード"
           placeholder="******************"
-          require={true}
-          updateFormState={updateFormState}
         />
         {isError && (
           <p className="text-red-500 text-xs italic mb-4">
@@ -43,21 +52,9 @@ export const LoginForm = () => {
         <div className="flex items-center justify-between">
           <Button
             type="submit"
-            disabled={invalid}
-            onClick={(e) => {
-              login(formItem['メールアドレス'].value, formItem['パスワード'].value)
-                .then((token) => {
-                  nookies.set(null, 'credentials', token, {
-                    maxAge: 30 * 24 * 60 * 60,
-                    path: '/',
-                  });
-                  router.push('/');
-                })
-                .catch(() => setError(true));
-              e.preventDefault();
-            }}
+            disabled={hasError}
             size="small"
-            color={!invalid ? 'primary' : 'disabled'}
+            color={!hasError ? 'primary' : 'disabled'}
           >
             ログイン
           </Button>
