@@ -5,12 +5,18 @@ import { useState } from 'react';
 import { PostRequest } from '../../features/posts/types/request';
 import { useCreatePost } from '../../features/posts/api/createPost';
 
-export const SideNav = () => {
+const useModal = () => {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
-  const onSubmit = (content: string) => {
+
+  return { showModal, setShowModal, handleClose };
+};
+
+export const SideNav = () => {
+  const { showModal, setShowModal, handleClose } = useModal();
+  const onSubmit = async (content: string) => {
     const postRequest = { userId: 'test-user-id', content } as PostRequest;
-    useCreatePost({ data: postRequest });
+    await useCreatePost({ data: postRequest });
     handleClose();
   };
 
@@ -33,6 +39,7 @@ type NavProp = {
   icon: string;
   link: string;
 };
+
 const Nav = ({ label, icon, link }: NavProp) => {
   return (
     <nav>

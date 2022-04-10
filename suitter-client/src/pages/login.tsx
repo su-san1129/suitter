@@ -22,9 +22,7 @@ export default function Login() {
           </Button>
           <Button
             type="submit"
-            onClick={() => {
-              setShowModal('login');
-            }}
+            onClick={() => setShowModal('login')}
             size="medium"
             color="primary"
             outline

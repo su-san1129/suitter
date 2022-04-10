@@ -13,10 +13,7 @@ export const createPost = ({ data }: CreatePostDTO): Promise<Post> => {
   return axios.post(`posts`, data);
 };
 
-export const useCreatePost = (request: CreatePostDTO) => {
-  const mutatePosts = async () => {
-    await createPost(request);
-    await mutate('posts');
-  };
-  mutatePosts().then();
+export const useCreatePost = async (request: CreatePostDTO) => {
+  await createPost(request);
+  await mutate('posts');
 };

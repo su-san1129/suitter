@@ -1,15 +1,20 @@
 import { Main } from '../components/layout/MainLayout';
 import { useLayoutEffect, useState } from 'react';
-import { parseCookies } from 'nookies';
+import nookies, { parseCookies } from 'nookies';
 import Login from './login';
+import { decodeJWT } from '../features/auth/auth';
 
-function App() {
+const App = () => {
   const [existUser, setExistUser] = useState<boolean>(false);
 
   useLayoutEffect(() => {
     const cookies = parseCookies();
     const credentials = cookies.credentials;
     if (credentials) {
+      nookies.set(null, 'currentUser', decodeJWT(credentials).id, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/',
+      });
       setExistUser(true);
     }
   });
@@ -23,6 +28,6 @@ function App() {
   ) : (
     <Login />
   );
-}
+};
 
 export default App;
