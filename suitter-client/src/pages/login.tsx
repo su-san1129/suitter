@@ -6,7 +6,6 @@ import { RegisterForm } from '../features/auth/components/RegisterForm';
 
 export default function Login() {
   const [showModal, setShowModal] = useState<ModalType>();
-
   return (
     <>
       <div className="container my-16 mx-auto flex items-center flex-col text-center">

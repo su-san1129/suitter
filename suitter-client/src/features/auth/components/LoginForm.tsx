@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Input } from '../../../components/elements/form/Input';
 import { login } from '../api/login';
 import { useRouter } from 'next/router';
-import nookies from 'nookies';
 import { Button } from '../../../components/elements/button/Button';
 import { useForm } from 'react-hook-form';
 import { LoginFormInputs } from '../types/Login';
+import { useAuthContext } from '../auth';
 
 export const LoginForm = () => {
   const {
@@ -14,14 +14,13 @@ export const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginFormInputs>();
   const router = useRouter();
+  const { setCredentials } = useAuthContext();
+
   const [isError, setError] = useState<boolean>(false);
   const onSubmit = ({ email, password }: LoginFormInputs) => {
     login(email, password)
       .then((token) => {
-        nookies.set(null, 'credentials', token, {
-          maxAge: 30 * 24 * 60 * 60,
-          path: '/',
-        });
+        setCredentials(token);
         router.push('/');
       })
       .catch(() => setError(true));
