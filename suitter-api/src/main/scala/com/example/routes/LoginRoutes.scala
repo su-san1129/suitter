@@ -12,7 +12,7 @@ class LoginRoutes {
     val repository = UserRepository()
     val maybeUser = repository.findByEmail(email)
     if (maybeUser.isDefined && maybeUser.get.password.equals(password)) {
-      val token = JWTConfig.generateToken(email)
+      val token = JWTConfig.generateToken(maybeUser.get)
       return (StatusCodes.OK, s"Bearer $token")
     }
     (StatusCodes.BadRequest, s"$email and $password is bad Request.")
