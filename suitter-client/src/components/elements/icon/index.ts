@@ -8,3 +8,4 @@ export * from './EditActiveIcon';
 export * from './EditInactiveIcon';
 export * from './MoveActiveIcon';
 export * from './MoveInactiveIcon';
+export * from './LogoutIcon';
