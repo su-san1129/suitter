@@ -12,16 +12,16 @@ import com.example.repository.UserRepository
 import scala.collection.immutable
 
 final case class User(
-                       id: String,
-                       name: String,
-                       email: String,
-                       password: String,
-                       phoneNumber: String,
-                       isPrivate: Boolean,
-                       icon: String,
-                       createdAt: Long,
-                       updatedAt: Long
-                     ) extends BaseEntity
+    id: String,
+    name: String,
+    email: String,
+    password: String,
+    phoneNumber: String,
+    isPrivate: Boolean,
+    icon: String,
+    createdAt: Long,
+    updatedAt: Long
+) extends BaseEntity
 
 final case class Users(users: immutable.Seq[User])
 
@@ -30,9 +30,11 @@ object UserRegistry {
 
   final case class GetUsers(replyTo: ActorRef[Users]) extends Command
 
-  final case class GetUser(id: String, replyTo: ActorRef[GetUserResponse]) extends Command
+  final case class GetUser(id: String, replyTo: ActorRef[GetUserResponse])
+      extends Command
 
-  final case class CreateUser(user: User, replyTo: ActorRef[GetUserResponse]) extends Command
+  final case class CreateUser(user: User, replyTo: ActorRef[GetUserResponse])
+      extends Command
 
   final case class GetUserResponse(maybeUser: Option[User])
 
@@ -41,18 +43,21 @@ object UserRegistry {
   def apply(): Behavior[Command] =
     Behaviors.receiveMessage {
       case GetUsers(replyTo) =>
-        replyTo ! Users((1 to 5).map(i =>
-          User(
-            "user-id" + i,
-            "user-" + i,
-            "user-" + i + "@example.com",
-            "password",
-            "123",
-            isPrivate = true,
-            "no-icon",
-            System.currentTimeMillis(),
-            System.currentTimeMillis()
-          )))
+        replyTo ! Users(
+          (1 to 5).map(i =>
+            User(
+              "user-id" + i,
+              "user-" + i,
+              "user-" + i + "@example.com",
+              "password",
+              "123",
+              isPrivate = true,
+              "no-icon",
+              System.currentTimeMillis(),
+              System.currentTimeMillis()
+            )
+          )
+        )
         Behaviors.same
       case GetUser(id, replyTo) =>
         replyTo ! GetUserResponse(repository.findById(id))

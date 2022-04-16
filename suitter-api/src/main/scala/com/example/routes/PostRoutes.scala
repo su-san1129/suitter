@@ -7,17 +7,26 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import com.example.domain.post.CreatePostRequest
-import com.example.registry.PostRegistry.{ActionPerformed, Create, DeletePost, GetPosts}
+import com.example.registry.PostRegistry.{
+  ActionPerformed,
+  Create,
+  DeletePost,
+  GetPosts
+}
 import com.example.registry._
 
 import scala.concurrent.Future
 
-class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val system: ActorSystem[_]) {
+class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit
+    val system: ActorSystem[_]
+) {
 
   import JsonFormats._
   import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 
-  private implicit val timeout: Timeout = Timeout.create(system.settings.config.getDuration("my-app.routes.ask-timeout"))
+  private implicit val timeout: Timeout = Timeout.create(
+    system.settings.config.getDuration("my-app.routes.ask-timeout")
+  )
 
   def getPosts(): Future[Posts] = postRegistry.ask(GetPosts)
 
@@ -25,7 +34,8 @@ class PostRoutes(postRegistry: ActorRef[PostRegistry.Command])(implicit val syst
     postRegistry.ask(Create(post.toPost(), _))
   }
 
-  def deletePost(id: String): Future[ActionPerformed] = postRegistry.ask(DeletePost(id, _))
+  def deletePost(id: String): Future[ActionPerformed] =
+    postRegistry.ask(DeletePost(id, _))
 
   val postRoutes: Route =
     pathPrefix("posts") {

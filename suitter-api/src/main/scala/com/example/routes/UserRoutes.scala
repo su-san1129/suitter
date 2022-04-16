@@ -12,18 +12,24 @@ import com.example.registry._
 
 import scala.concurrent.Future
 
-class UserRoutes(userRegistry: ActorRef[UserRegistry.Command])(implicit val system: ActorSystem[_]) {
+class UserRoutes(userRegistry: ActorRef[UserRegistry.Command])(implicit
+    val system: ActorSystem[_]
+) {
 
   import JsonFormats._
   import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
 
-  private implicit val timeout: Timeout = Timeout.create(system.settings.config.getDuration("my-app.routes.ask-timeout"))
+  private implicit val timeout: Timeout = Timeout.create(
+    system.settings.config.getDuration("my-app.routes.ask-timeout")
+  )
 
   def getUsers(): Future[Users] = userRegistry.ask(GetUsers)
 
-  def createUser(user: User): Future[GetUserResponse] = userRegistry.ask(CreateUser(user, _))
+  def createUser(user: User): Future[GetUserResponse] =
+    userRegistry.ask(CreateUser(user, _))
 
-  def getUser(id: String): Future[GetUserResponse] = userRegistry.ask(GetUser(id, _))
+  def getUser(id: String): Future[GetUserResponse] =
+    userRegistry.ask(GetUser(id, _))
 
   val userRoutes: Route =
     pathPrefix("users") {

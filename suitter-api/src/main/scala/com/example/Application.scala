@@ -4,9 +4,15 @@ import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.Behaviors
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.headers.{HttpChallenge, OAuth2BearerToken}
-import akka.http.scaladsl.server.Directives.{authenticateOrRejectWithChallenge, handleRejections}
+import akka.http.scaladsl.server.Directives.{
+  authenticateOrRejectWithChallenge,
+  handleRejections
+}
 import akka.http.scaladsl.server._
-import akka.http.scaladsl.server.directives.{AuthenticationDirective, AuthenticationResult}
+import akka.http.scaladsl.server.directives.{
+  AuthenticationDirective,
+  AuthenticationResult
+}
 import com.example.config.JWTConfig
 import com.example.config.JdbcConfig._
 import com.example.registry._
@@ -17,7 +23,9 @@ import scala.util._
 
 object Application {
 
-  private def startHttpServer(routes: Route)(implicit system: ActorSystem[_]): Unit = {
+  private def startHttpServer(
+      routes: Route
+  )(implicit system: ActorSystem[_]): Unit = {
     // Akka HTTP still needs a classic ActorSystem to start
     import system.executionContext
 
@@ -26,7 +34,11 @@ object Application {
     futureBinding.onComplete {
       case Success(binding) =>
         val address = binding.localAddress
-        system.log.info("Server online at http://{}:{}/", address.getHostString, address.getPort)
+        system.log.info(
+          "Server online at http://{}:{}/",
+          address.getHostString,
+          address.getPort
+        )
       case Failure(ex) =>
         system.log.error("Failed to bind HTTP endpoint, terminating system", ex)
         system.terminate()
@@ -57,7 +69,7 @@ object Application {
               authenticate(system) { _a =>
                 concat(
                   user.userRoutes,
-                  postRoutes.postRoutes,
+                  postRoutes.postRoutes
                 )
               },
               LoginRoutes.apply,
@@ -72,14 +84,18 @@ object Application {
     val system = ActorSystem[Nothing](rootBehavior, "AkkaHttpServer")
   }
 
-  private def authenticate(system: ActorSystem[_]): AuthenticationDirective[String] = {
+  private def authenticate(
+      system: ActorSystem[_]
+  ): AuthenticationDirective[String] = {
     authenticateOrRejectWithChallenge[OAuth2BearerToken, String] {
       case Some(OAuth2BearerToken(token)) if JWTConfig.validate(token) =>
         Future.successful(AuthenticationResult.success("success"))
       case _ =>
         system.log.error("401: unauthorized.")
-        Future.successful(AuthenticationResult.failWithChallenge(
-          HttpChallenge("bearer", None, Map("error" -> "invalid_token")))
+        Future.successful(
+          AuthenticationResult.failWithChallenge(
+            HttpChallenge("bearer", None, Map("error" -> "invalid_token"))
+          )
         )
     }
   }

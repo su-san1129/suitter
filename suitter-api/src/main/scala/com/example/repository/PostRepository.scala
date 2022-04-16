@@ -22,7 +22,8 @@ final class PostRepository private extends BaseRepository[Post] {
   override def create(post: Post): Post = {
     sql"""
       INSERT INTO posts (id, user_id, content, created_at, updated_at)
-      VALUES (RANDOM_UUID(), ${post.userId}, ${post.content}, ${System.currentTimeMillis()}, ${System.currentTimeMillis()})
+      VALUES (RANDOM_UUID(), ${post.userId}, ${post.content}, ${System
+      .currentTimeMillis()}, ${System.currentTimeMillis()})
     """.update.apply()
     post
   }

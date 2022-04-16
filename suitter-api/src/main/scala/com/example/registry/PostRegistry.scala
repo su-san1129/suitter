@@ -8,24 +8,31 @@ import com.example.repository.{PostRepository, UserRepository}
 import scala.collection.immutable
 
 final case class Post(
-                       id: String,
-                       userId: String,
-                       content: String,
-                       createdAt: Long,
-                       updatedAt: Long
-                     ) extends BaseEntity {
+    id: String,
+    userId: String,
+    content: String,
+    createdAt: Long,
+    updatedAt: Long
+) extends BaseEntity {
   def convertToPostResponse(post: Post, user: User): PostResponse =
-    PostResponse(post.id, post.userId, user, post.content, post.createdAt, post.updatedAt)
+    PostResponse(
+      post.id,
+      post.userId,
+      user,
+      post.content,
+      post.createdAt,
+      post.updatedAt
+    )
 }
 
 final case class PostResponse(
-                               id: String,
-                               userId: String,
-                               user: User,
-                               content: String,
-                               createdAt: Long,
-                               updatedAt: Long
-                             )
+    id: String,
+    userId: String,
+    user: User,
+    content: String,
+    createdAt: Long,
+    updatedAt: Long
+)
 
 final case class Posts(posts: immutable.Seq[PostResponse])
 
@@ -36,7 +43,8 @@ object PostRegistry {
 
   final case class Create(post: Post, replyTo: ActorRef[Post]) extends Command
 
-  final case class DeletePost(id: String, replyTo: ActorRef[ActionPerformed]) extends Command
+  final case class DeletePost(id: String, replyTo: ActorRef[ActionPerformed])
+      extends Command
 
   final case class ActionPerformed(description: String)
 
@@ -46,8 +54,8 @@ object PostRegistry {
   def apply(): Behavior[Command] =
     Behaviors.receiveMessage {
       case GetPosts(replyTo) =>
-        val postResponse = repository.findAll().map {
-          post => {
+        val postResponse = repository.findAll().map { post =>
+          {
             val user = userRepository.findById(post.userId).orNull
             post.convertToPostResponse(post, user)
           }

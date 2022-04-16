@@ -8,7 +8,10 @@ import com.example.repository.UserRepository
 
 class LoginRoutes {
 
-  def login(email: String, password: String): (StatusCode with Serializable, String) = {
+  def login(
+      email: String,
+      password: String
+  ): (StatusCode with Serializable, String) = {
     val repository = UserRepository()
     val maybeUser = repository.findByEmail(email)
     if (maybeUser.isDefined && maybeUser.get.password.equals(password)) {

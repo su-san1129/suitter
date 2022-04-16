@@ -4,7 +4,13 @@ import com.example.registry.User
 
 import java.util.UUID
 
-case class CreateUserRequest(name: String, email: String, password: String, phoneNumber: String, icon: String) {
+case class CreateUserRequest(
+    name: String,
+    email: String,
+    password: String,
+    phoneNumber: String,
+    icon: String
+) {
   def toUser(): User = {
     User(
       id = UUID.randomUUID().toString,

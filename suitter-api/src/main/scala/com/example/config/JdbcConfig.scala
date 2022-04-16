@@ -24,9 +24,10 @@ object JdbcConfig {
   }
 
   def initDB(): Unit = {
-    Using(Source.fromFile("src/main/resources/db/setup/init.sql")) {
-      source => {
-        val interpolationString = new SQLInterpolationString(StringContext(source.mkString))
+    Using(Source.fromFile("src/main/resources/db/setup/init.sql")) { source =>
+      {
+        val interpolationString =
+          new SQLInterpolationString(StringContext(source.mkString))
         interpolationString.sql().execute.apply()
       }
     }
