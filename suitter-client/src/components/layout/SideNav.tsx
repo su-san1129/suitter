@@ -4,6 +4,7 @@ import { PostModal } from '../elements/Modal';
 import { useState } from 'react';
 import { PostRequest } from '../../features/posts/types/request';
 import { useCreatePost } from '../../features/posts/api/createPost';
+import { useAuthContext } from '../../features/auth/auth';
 
 const useModal = () => {
   const [showModal, setShowModal] = useState(false);
@@ -13,18 +14,21 @@ const useModal = () => {
 };
 
 export const SideNav = () => {
+  const { currentUser } = useAuthContext();
   const { showModal, setShowModal, handleClose } = useModal();
   const onSubmit = async (content: string) => {
-    const postRequest = { userId: 'test-user-id', content } as PostRequest;
+    const postRequest = { userId: currentUser?.id, content } as PostRequest;
     await useCreatePost({ data: postRequest });
     handleClose();
   };
 
   return (
-    <header className="w-72 p-4">
+    <header className="2xl:w-72 2xl:p-4 m-2">
       <h1 className="text-4xl font-bold mb-8">Suitter</h1>
-      <Nav label="ホーム" icon="home.svg" link="#" />
-      <Nav label="プロフィール" icon="user-regular.svg" link="#" />
+      <div className="2xl:block hidden">
+        <Nav label="ホーム" icon="home.svg" link="#" />
+        <Nav label="プロフィール" icon="user-regular.svg" link="#" />
+      </div>
       <Button type="submit" color="primary" size="medium" onClick={() => setShowModal(true)}>
         投稿する
       </Button>
