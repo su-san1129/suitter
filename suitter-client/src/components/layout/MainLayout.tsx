@@ -3,14 +3,14 @@ import { Feed } from '../../features/posts/components/PostList';
 
 export const Main = () => {
   return (
-    <div className="Main">
-      <div className="flex justify-center ">
+    <>
+      <div className="2xl:flex 2xl:justify-center ">
         <SideNav />
-        <div className="w-720">
+        <div className="2xl:w-5/12 m-2">
           ホーム
           <Feed />
         </div>
       </div>
-    </div>
+    </>
   );
 };

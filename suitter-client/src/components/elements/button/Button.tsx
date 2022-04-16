@@ -27,7 +27,7 @@ export const Button: React.FC<ButtonHTMLAttributes<HTMLButtonElement> & ButtonPr
 
 const sizeStyle = {
   small: '2xl:w-20 2xl:h-8 w-full h-12 ',
-  medium: 'my-2 w-4/5 h-10 text-lg ',
+  medium: 'my-2 2xl:w-4/5 w-full h-10 text-lg ',
 };
 
 const colorStyle = {

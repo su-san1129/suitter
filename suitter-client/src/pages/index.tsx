@@ -7,10 +7,8 @@ const App = () => {
   const { currentUser } = useAuthContext();
 
   return currentUser ? (
-    <div className="my-8 mx-16">
-      <header className="App-header">
-        <Main />
-      </header>
+    <div className="2xl:my-8 2xl:mx-16">
+      <Main />
     </div>
   ) : (
     <Login />
