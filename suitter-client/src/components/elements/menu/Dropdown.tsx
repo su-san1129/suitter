@@ -2,7 +2,7 @@ import { Menu, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
 import { DotsHorizontalIcon } from '@heroicons/react/solid';
 
-export const DropDown: React.FC = ({ children }) => {
+export const Dropdown: React.FC = ({ children }) => {
   return (
     <>
       <Menu as="div" className="relative inline-block text-left">

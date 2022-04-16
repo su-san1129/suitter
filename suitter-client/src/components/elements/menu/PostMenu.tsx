@@ -12,7 +12,7 @@ import {
   MoveActiveIcon,
   MoveInactiveIcon,
 } from '../icon';
-import { DropDown } from './DropDown';
+import { Dropdown } from './Dropdown';
 
 type Prop = {
   id: string;
@@ -21,7 +21,7 @@ type Prop = {
 
 export const PostMenu: React.FC<Prop> = ({ id, onClickDeleteButton }) => {
   return (
-    <DropDown>
+    <Dropdown>
       <div className="px-1 py-1 ">
         <Menu.Item>
           {({ active }) => (
@@ -35,7 +35,7 @@ export const PostMenu: React.FC<Prop> = ({ id, onClickDeleteButton }) => {
               ) : (
                 <EditInactiveIcon className="w-5 h-5 mr-2" aria-hidden="true" />
               )}
-              Edit
+              編集
             </button>
           )}
         </Menu.Item>
@@ -51,7 +51,7 @@ export const PostMenu: React.FC<Prop> = ({ id, onClickDeleteButton }) => {
               ) : (
                 <DuplicateInactiveIcon className="w-5 h-5 mr-2" aria-hidden="true" />
               )}
-              Duplicate
+              複製
             </button>
           )}
         </Menu.Item>
@@ -69,7 +69,7 @@ export const PostMenu: React.FC<Prop> = ({ id, onClickDeleteButton }) => {
               ) : (
                 <ArchiveInactiveIcon className="w-5 h-5 mr-2" aria-hidden="true" />
               )}
-              Archive
+              アーカイブ
             </button>
           )}
         </Menu.Item>
@@ -85,7 +85,7 @@ export const PostMenu: React.FC<Prop> = ({ id, onClickDeleteButton }) => {
               ) : (
                 <MoveInactiveIcon className="w-5 h-5 mr-2" aria-hidden="true" />
               )}
-              Move
+              移動
             </button>
           )}
         </Menu.Item>
@@ -104,11 +104,11 @@ export const PostMenu: React.FC<Prop> = ({ id, onClickDeleteButton }) => {
               ) : (
                 <DeleteInactiveIcon className="w-5 h-5 mr-2 text-violet-400" aria-hidden="true" />
               )}
-              Delete
+              削除
             </button>
           )}
         </Menu.Item>
       </div>
-    </DropDown>
+    </Dropdown>
   );
 };
