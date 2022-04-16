@@ -2,7 +2,7 @@ import nookies from 'nookies';
 
 const setCookies = (name: string, value: string, option?: object) => {
   nookies.set(null, name, value, {
-    maxAge: 30 * 24 * 60 * 60,
+    maxAge: 30 * 60,
     path: '/',
     ...option,
   });
