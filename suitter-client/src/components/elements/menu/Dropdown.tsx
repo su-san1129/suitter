@@ -7,8 +7,8 @@ export const Dropdown: React.FC = ({ children }) => {
     <>
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button>
-            <DotsHorizontalIcon className={'w-5 h-5'} />
+          <Menu.Button className="h-10 w-10 rounded-full hover:bg-gray-200">
+            <DotsHorizontalIcon className="w-5 h-5 m-auto" />
           </Menu.Button>
         </div>
         <Transition
