@@ -17,6 +17,8 @@ export const SideNav = () => {
   const { currentUser } = useAuthContext();
   const { showModal, setShowModal, handleClose } = useModal();
   const onSubmit = async (content: string) => {
+    if (!content) return;
+
     const postRequest = { userId: currentUser?.id, content } as PostRequest;
     await useCreatePost({ data: postRequest });
     handleClose();

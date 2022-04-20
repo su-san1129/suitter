@@ -4,6 +4,7 @@ import { Button } from '../../../components/elements/button/Button';
 import { register as apiRegister } from '../api/register';
 import { useForm } from 'react-hook-form';
 import { RegisterFormInputs } from '../types/Register';
+import { useRouter } from 'next/router';
 
 export const RegisterForm = () => {
   const {
@@ -11,9 +12,11 @@ export const RegisterForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormInputs>();
-  const onSubmit = async (data: RegisterFormInputs) => {
-    await apiRegister(data);
-    window.location.href = '/login';
+  const router = useRouter();
+  const onSubmit = (data: RegisterFormInputs) => {
+    apiRegister({ ...data, icon: '' })
+      .then(() => router.push('/login'))
+      .catch((err) => console.error(err));
   };
 
   const isError = 0 < Object.keys(errors).length;
