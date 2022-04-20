@@ -1,5 +1,5 @@
 import { Button } from '../components/elements/button/Button';
-import { Modal } from '../components/elements/Modal';
+import { Modal } from '../components/elements/modal/Modal';
 import React, { useState } from 'react';
 import { LoginForm } from '../features/auth/components/LoginForm';
 import { RegisterForm } from '../features/auth/components/RegisterForm';

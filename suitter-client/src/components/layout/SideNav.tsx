@@ -1,10 +1,10 @@
 import { UserIcon } from '../../features/users/components/UserIcon';
 import { Button } from '../elements/button/Button';
-import { PostModal } from '../elements/Modal';
 import { useState } from 'react';
 import { PostRequest } from '../../features/posts/types/request';
 import { useCreatePost } from '../../features/posts/api/createPost';
 import { useAuthContext } from '../../features/auth/auth';
+import { PostModal } from '../elements/modal/PostModal';
 
 const useModal = () => {
   const [showModal, setShowModal] = useState(false);
