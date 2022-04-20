@@ -15,6 +15,7 @@ export const useAuthContext = () => useContext(AuthContext) as AuthType;
 
 export const useAuth = () => {
   const [currentUser, setUser] = useState<User>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   const decodeJWT = (token: string): Claim => {
     const base64Url = token.split('.')[1];
@@ -39,10 +40,15 @@ export const useAuth = () => {
   const currentUserId = parseCookies().currentUser;
 
   useEffect(() => {
-    if (currentUserId) {
-      getUser(`users/${currentUserId}`).then((user) => setUser(user));
-    }
+    const fetchUser = async () => {
+      if (currentUserId) {
+        await getUser(`users/${currentUserId}`).then((user) => setUser(user));
+      }
+    };
+    fetchUser()
+      .then(() => setLoading(false))
+      .catch(() => setLoading(false));
   }, [currentUserId]);
 
-  return { currentUser, setUser, logout, setCredentials, decodeJWT };
+  return { currentUser, setUser, loading, logout, setCredentials, decodeJWT };
 };

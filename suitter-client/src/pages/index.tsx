@@ -4,7 +4,9 @@ import { useAuthContext } from '../features/auth/auth';
 import React from 'react';
 
 const App = () => {
-  const { currentUser } = useAuthContext();
+  const { currentUser, loading } = useAuthContext();
+
+  if (loading) return <></>;
 
   return currentUser ? (
     <div className="2xl:my-8 2xl:mx-16">
