@@ -1,12 +1,9 @@
 package com.example.registry
 
-import akka.actor.typed.{ActorRef, Behavior}
 import akka.actor.typed.scaladsl.Behaviors
-import akka.http.scaladsl.server.AuthorizationFailedRejection
-import akka.http.scaladsl.server.Directives.reject
-import com.example.config.JWTConfig
+import akka.actor.typed.{ActorRef, Behavior}
+import com.example.config.PasswordEncoder
 import com.example.domain.BaseEntity
-import com.example.registry.UserRegistry.repository
 import com.example.repository.UserRepository
 
 import scala.collection.immutable
@@ -15,7 +12,7 @@ final case class User(
     id: String,
     name: String,
     email: String,
-    password: String,
+    var password: String,
     phoneNumber: String,
     isPrivate: Boolean,
     icon: String,
@@ -39,6 +36,7 @@ object UserRegistry {
   final case class GetUserResponse(maybeUser: Option[User])
 
   val repository: UserRepository = UserRepository()
+  val passwordEncoder = PasswordEncoder()
 
   def apply(): Behavior[Command] =
     Behaviors.receiveMessage {
@@ -64,6 +62,7 @@ object UserRegistry {
         Behaviors.same
       case CreateUser(user, replyTo) =>
         replyTo ! GetUserResponse(Option(user))
+        user.password = passwordEncoder.encode(user.password)
         repository.create(user)
         Behaviors.same
     }

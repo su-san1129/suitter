@@ -3,10 +3,12 @@ package com.example.routes
 import akka.http.scaladsl.model.{StatusCode, StatusCodes}
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
-import com.example.config.JWTConfig
+import com.example.config.{JWTConfig, PasswordEncoder}
 import com.example.repository.UserRepository
 
 class LoginRoutes {
+
+  val passwordEncoder = PasswordEncoder()
 
   def login(
       email: String,
@@ -14,7 +16,12 @@ class LoginRoutes {
   ): (StatusCode with Serializable, String) = {
     val repository = UserRepository()
     val maybeUser = repository.findByEmail(email)
-    if (maybeUser.isDefined && maybeUser.get.password.equals(password)) {
+    if (
+      maybeUser.isDefined && passwordEncoder.matches(
+        password,
+        maybeUser.get.password
+      )
+    ) {
       val token = JWTConfig.generateToken(maybeUser.get)
       return (StatusCodes.OK, s"Bearer $token")
     }
